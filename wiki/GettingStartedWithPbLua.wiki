@@ -23,3 +23,8 @@ To install a new LEGO MINDSTORMS NXT Firmware version put the firmware file in t
 After relaunching of the LEGO MINDSTORMS NXT Software, go to the "Tool" menu and select "Update NXT Firmware...". 
 The new firmware should now be available within the "Available Firmware Files". Select the file and press "Download"
 === Linux ===
+
+==== NXC - Not eXactly C ====
+http://mtc.epfl.ch/courses/ProblemSolving-2007/nxt.html
+*Robot Build Instructions*
+http://legoeducation.info/nxt/wp-content/uploads/2006/10/TriBot.pdf
