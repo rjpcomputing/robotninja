@@ -1,0 +1,25 @@
+#summary This is how to setup and work with pbLua on the NXT brick.
+#labels Phase-Implementation,nxt-robot,pbLua
+
+= Purpose =
+
+To explain in detail how to setup pbLua on a NXT brick. It also covers how to connect to it so that you can program the robot.
+
+= Initial Setup =
+== Reflashing the Firmware ==
+=== Windows ===
+You can find instuctions for this in the manual that comes with the MindStorms package. Here  is a breif description of what you need to do:
+
+Place the NXT into reset by:
+  * Power up the NXT.
+  * Push the reset button for more than 4 seconds. The reset button is on the back and hidden below the USB
+
+To install a new LEGO MINDSTORMS NXT Firmware version put the firmware file in the following folder: 
+
+`...\Program Files\LEGO Software\LEGO MINDSTORMS NXT\engine\Firmware
+`.
+
+
+After relaunching of the LEGO MINDSTORMS NXT Software, go to the "Tool" menu and select "Update NXT Firmware...". 
+The new firmware should now be available within the "Available Firmware Files". Select the file and press "Download"
+=== Linux ===
