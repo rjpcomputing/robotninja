@@ -1,5 +1,5 @@
 #summary This is how to setup and work with NXC on the LEGO NXT brick for this project.
-#labels Phase-Implementation,Lego,NXT,Robot,NXC
+#labels Phase-Implementation,Featured,Lego,NXT,Robot,NXC
 
 = Purpose =
 ----
@@ -10,39 +10,4 @@ Explain general robot construction and programming techniques used in the RobotN
   # [RobotBuildInstructions Robot Build Instructions]
   # [LegoNxtInitialSetup Initial Setup]
   # [LegoNxtNxc NXC (Not eXactly C)]
-
-= Connecting via Bluetooth =
-----
-== Linux ==
-  # Install Bluetooth packages:
-{{{
-sudo apt-get install bluez-utils bluez-pin
-}}}
-  # Make sure Bluetooth on your computer is turned on, then start the services:
-{{{
-sudo /etc/init.d/bluetooth start
-}}}
-  # Now turn Bluetooth on NXT brick on and let your computer scan for it:
-{{{
-hciconfig hci0
-hcitool scan
-}}}
-   You should get something like this:
-{{{
-00:16:53:04:20:C9       NXT
-}}}
-  # Create a file `/etc/bluetooth/pin` containing plaintext "1234". (This is the default pin on the NXT, you may change it).
-{{{
-sdptool add --channel=3 SP
-rfcomm listen /dev/rfcomm0 3
-}}}
-   The NXT should now be able to find your computer (`Bluetoot>Search`). You need to enter the pin to connect.
-  # To view the communication stream enter:
-{{{
-cat /dev/rfcomm0 | od -t x1 -w1 -v -Ax
-}}}
-
-Most of this comes from this [http://mtc.epfl.ch/courses/ProblemSolving-2007/nxt.html website].
-
-== Windows ==
-I am not sure yet. I don't have any instructions planned for this yet.
+  # [LegoNxtBluetooth Connecting via Bluetooth]
