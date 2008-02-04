@@ -1,0 +1,116 @@
+#summary This is how to setup and work with NXC on the LEGO NXT brick for this project.
+#labels Phase-Implementation,NXT,Lego,NXC,Robot
+
+= Purpose =
+----
+
+Explain general robot construction and programming techniques used in the RobotNinja project. This article will also explain in detail how to setup NXC on a LEGO NXT brick. It also covers how to connect to it so that you can program the robot.
+
+
+= Robot Build Instructions =
+----
+Use the default robot given in the user guide that ships with the LEGO MindStorms package. This is affectionitly refered to as the TriBot robot.
+http://legoeducation.info/nxt/wp-content/uploads/2006/10/TriBot.pdf
+
+= Initial Setup =
+----
+
+== Reflashing the Firmware ==
+This is _not_ required unless we find that we need multi-dimentional arrays.
+
+=== Place the NXT into reset ===
+  * Power up the NXT.
+  * Push the reset button for more than 4 seconds. The reset button is on the back and hidden below the USB
+
+=== Linux ===
+Not yet documented. Coming soon. Remember this is not needed unless we use some really advanced features of NXC.
+
+=== Windows ===
+You can find instructions for this in the manual that comes with the MindStorms package. Here  is a brief description of what you need to do:
+
+  * Make sure the LEGO NXT brick is in reset. (See above)
+  * Install the LEGO MINDSTORMS NXT Software from the supplied CD-ROM.
+  * Put the firmware file in the following folder: `...\Program Files\LEGO Software\LEGO MINDSTORMS NXT\engine\Firmware`.
+  * After relaunching of the LEGO MINDSTORMS NXT Software, go to the "Tool" menu and select "Update NXT Firmware...". 
+  * The new firmware should now be available within the "Available Firmware Files".
+  * Select the file and press "Download"
+
+= NXC - Not eXactly C =
+----
+[http://bricxcc.sourceforge.net/nbc/ NBC/NXC] is a C-like programming language designed for the Lego robots. It comes with a GUI for Windows called BricxCC.
+
+== Programming the brick ==
+This section describes how to write and build software to un on the LEGO NXT brick.
+
+=== Linux ===
+The command line version is easy to use under Linux.
+
+  * Download and extract the [http://bricxcc.sourceforge.net/nbc/beta/index.html NBC/NXC compiler] (Linux binaries).
+  * Create a link to the binary:
+      `sudo ln -s ~/lego/nxt/nbc /usr/bin/nbc`
+  * To compile a program, do:
+      `nbc -T=NXT -O=file.rxe file.nxc`
+
+Most of this comes from this [http://mtc.epfl.ch/courses/ProblemSolving-2007/nxt.html website].
+
+=== Windows ===
+There is a GUI IDE for NXC that is called [http://bricxcc.sourceforge.net/ BricxCC]. Use this to program in NXC and also download the programs to the LEGO NXT brick.
+
+==== Setup BricxCC ====
+  * Download the latest release of [http://sourceforge.net/project/showfiles.php?group_id=68600&package_id=67285 BricxCC].
+  * Grab both the latest setup and the latest zip that is released after the setup.
+  * Then follow the readme that comes with the .zip file.
+
+== USB file transfer ==
+Compilation with nbc produces an executable file (.rxe) that needs to be transferred to the brick. This section covers how to transfer the created executable (.rxe) to the LEGO NXT brick.
+
+=== Linux ===
+==== talk2nxt Installation ====
+  # Download and extract [http://www-verimag.imag.fr/~raymond/edu/nxt/ talk2nxt].
+  # Create a link to the binary:
+      `sudo ln -s ~/lego/t2n-0.1/t2n /usr/bin/t2n`
+
+==== Uploading files ====
+Now you can upload files to the NXT brick:
+  `sudo t2n -put file.rxe`
+
+If the file was already present in `My Files>Software files`, the transfer fails.
+
+=== Windows ===
+Use [http://bricxcc.sourceforge.net/ BricxCC] to download the built executable (.rxe). (Look at the [http://bricxcc.sourceforge.net/nbc/nxcdoc/NXC_tutorial.pdf NXC Tutorial] for more detailed instructions)
+
+=Connecting via Bluetooth=
+
+== Linux ==
+  # Install Bluetooth packages:
+{{{
+sudo apt-get install bluez-utils bluez-pin
+}}}
+  # Make sure Bluetooth on your computer is turned on, then start the services:
+{{{
+sudo /etc/init.d/bluetooth start
+}}}
+  # Now turn Bluetooth on NXT brick on and let your computer scan for it:
+{{{
+hciconfig hci0
+hcitool scan
+}}}
+   You should get something like this:
+{{{
+00:16:53:04:20:C9       NXT
+}}}
+  # Create a file `/etc/bluetooth/pin` containing plaintext "1234". (This is the default pin on the NXT, you may change it).
+{{{
+sdptool add --channel=3 SP
+rfcomm listen /dev/rfcomm0 3
+}}}
+   The NXT should now be able to find your computer (`Bluetoot>Search`). You need to enter the pin to connect.
+  # To view the communication stream enter:
+{{{
+cat /dev/rfcomm0 | od -t x1 -w1 -v -Ax
+}}}
+
+Most of this comes from this [http://mtc.epfl.ch/courses/ProblemSolving-2007/nxt.html website].
+
+== Windows ==
+I am not sure yet. I don't have any instructions planned for this yet.
