@@ -7,8 +7,8 @@
 Explain general robot construction and programming techniques used in the RobotNinja project. This article will also explain in detail how to setup NXC on a LEGO NXT brick. It also covers how to connect to it so that you can program the robot.
 
 = Table of Contents =
-  * [Robot Build Instructions RobotBuildInstructions]
-  * [Initial Setup LegoNxtInitialSetup]
+  * RobotBuildInstructions
+  * LegoNxtInitialSetup
 
 
 = NXC - Not eXactly C =
