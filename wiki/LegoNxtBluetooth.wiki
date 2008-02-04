@@ -1,6 +1,5 @@
+#summary This is how to setup and work with a Bluetooth connection.
 #labels Phase-Implementation,Lego,NXT,Bluetooth
-
-#summary This is how to setup and work with a Bluetooth connection between a PC and the LEGO NXT brick.
 
 = Purpose =
 ----
