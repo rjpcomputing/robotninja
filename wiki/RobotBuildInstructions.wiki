@@ -1,5 +1,5 @@
 #summary Robot building instructions.
-#labels Phase-Implementation,robot,lego
+#labels Phase-Implementation,Lego,NXT,robot
 
 = Purpose = 
 ----
