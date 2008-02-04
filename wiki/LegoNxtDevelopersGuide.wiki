@@ -6,11 +6,8 @@
 
 Explain general robot construction and programming techniques used in the RobotNinja project. This article will also explain in detail how to setup NXC on a LEGO NXT brick. It also covers how to connect to it so that you can program the robot.
 
-
-= Robot Build Instructions =
-----
-Use the default robot given in the user guide that ships with the LEGO MindStorms package. This is affectionitly refered to as the TriBot robot.
-http://legoeducation.info/nxt/wp-content/uploads/2006/10/TriBot.pdf
+= Table of Contents
+  * RobotBuildInstructions
 
 = Initial Setup =
 ----
