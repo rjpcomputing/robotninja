@@ -1,12 +1,4 @@
 #summary Link to SWE Design document draft
 = Introduction =
 
-Add your content here.
-
-
-= Details =
-
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+[http://home.student.uu.se/jobr2245/runelogs/Designdocdraft2.doc|Link to the document.]
