@@ -1,3 +1,3 @@
 #summary Link to SWE Design document draft
 
-[http://home.student.uu.se/jobr2245/runelogs/Designdocdraft2.doc | Link to the document.]
+[http://home.student.uu.se/jobr2245/runelogs/Designdocdraft2.doc| Link to the document.]
