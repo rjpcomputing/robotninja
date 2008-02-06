@@ -1,3 +1,10 @@
 #summary Link to SWE Design document draft
 
-[http://home.student.uu.se/jobr2245/runelogs/Designdocdraft2.doc Link to the document.]
+The Runestone 2008 page is down for the moment, so I placed a link to our version
+of the document here as well. We haven't done any major changes. Everything looked
+good from the start. I've added the diagram and the gantt chart images to the
+document with links to the full size images.
+
+Great job Adam & Jason! :)
+
+[http://home.student.uu.se/jobr2245/runelogs/Designdocdraft2.doc Link to the revised document.]
