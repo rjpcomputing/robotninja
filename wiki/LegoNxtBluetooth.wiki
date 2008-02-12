@@ -17,6 +17,7 @@ $ sudo apt-get install bluez-utils bluez-gnome libbluetooth-dev
 $ bluetooth-applet
 }}}
   # When the Bluetooth icon appears in the system tray we can conect and it will help pair with the NXT.
+  # Download [http://www.scienzaludica.it/files/NXTRC.tgz NXTRC].
   # Change to the directory where you downloaded `NXTRC`.
 {{{
 $ cd ~/lego/linux/NXTRC
