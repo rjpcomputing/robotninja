@@ -43,10 +43,11 @@ The purpose of these standards is to keep all aspects of the program on the same
   * Robot will acknowledge (ack) receipt of commands from server.
   * Robot commands that will be used are as follows:
 || *Function* || *Description* ||
-|| `RotateMotor(outputs, pwr, angle)` || Run the specified outputs forward for the specified number ofdegrees ||
+|| `RotateMotor(outputs, pwr, angle)` || Run the specified outputs forward for the specified number of degrees ||
 || `RotateMotor(OUT_A, 75, 45)` || Forward wheel A at 75% speed for 45 degree rotation ||
 || `RotateMotor(OUT_A, -75, 45)` || Backward wheel A at 75% speed for 45 degree rotation ||
 || `RotateMotor(OUT_AB, 100, 360)` || Straight forward at 100% speed for 360 degree rotation ||
 
-  *Notes:*
+=== Notes ===
+
   Rotation specifies the amount of rotation the wheel will do. 360 is one full rotation of the wheel.
