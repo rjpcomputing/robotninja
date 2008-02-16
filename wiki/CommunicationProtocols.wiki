@@ -19,11 +19,12 @@ The purpose of these standards is to keep all aspects of the program on the same
 
 = Protocols and Standards =
 
-== Client-Server Communication ==
-  * Client sends commands to server.
-  * These commands are to strictly adhere to the following format:
-`L[+|-]###R[+|-]###`
-  Some examples of this regular expression in action are presented below. Remember, when you are looking at the robot from behind (sensor “eyes” pointing away from you), the left wheel is “L” and the right wheel is “R”. L+100 indicates rotating the left wheel forward at 100% speed. R-075 indicates rotating the right wheel backward at 75% speed. Here are some more examples:
+  == Client-Server Communication ==
+   * Client sends commands to server.
+   * These commands are to strictly adhere to the following format:
+   `L[+|-]###R[+|-]###`
+
+   Some examples of this regular expression in action are presented below. Remember, when you are looking at the robot from behind (sensor “eyes” pointing away from you), the left wheel is “L” and the right wheel is “R”. L+100 indicates rotating the left wheel forward at 100% speed. R-075 indicates rotating the right wheel backward at 75% speed. Here are some more examples:
 || *Example* || *Description* ||
 || `L+100R+100` || Full speed ahead ||
 || `L+075R+075` || Forward at 75% speed ||
@@ -33,21 +34,23 @@ The purpose of these standards is to keep all aspects of the program on the same
 || `L+000R+000` || Robot stops moving ||
 
    As you can see, all commands must follow the 10 character length.
-  * If client-to-server connectivity fails, the client will present an error message.
-  * Server will acknowledge (ack) receipt of commands from client.
-  * If the robot does not acknowledge (nack) or fails to respond to the server, an error is sent to the client.
+    * If client-to-server connectivity fails, the client will present an error message.
+    * Server will acknowledge (ack) receipt of commands from client. A positive message response is `true` (1).
+    * If the robot does not acknowledge (nack) or fails to respond to the server, an error is sent to the client. A negative message response is `false` (0).
 
-== Server-Robot Communication ==
-
-  * Server sends commands to robot after translating them into a format the robot can execute.
-  * Robot will acknowledge (ack) receipt of commands from server.
-  * Robot commands that will be used are as follows:
+  == Server-Robot Communication ==
+    * Server sends commands to robot after translating them into a format the robot can execute.
+    * Robot will acknowledge (ack) receipt of commands from server. A positive message response is `true` (1). A negative message response is `false` (0).
+    * If the robot is not available there will not be a response (ack/nack) from the robot.
+      * This will trigger:
+        * The server to retry the command again after 250ms.
+        * The server will retry the command 5 times before sending a `nack` (`false`/0) to the client.
+    * Robot commands that will be used are as follows:
 || *Function* || *Description* ||
 || `RotateMotor(outputs, pwr, angle)` || Run the specified outputs forward for the specified number of degrees ||
 || `RotateMotor(OUT_A, 75, 45)` || Forward wheel A at 75% speed for 45 degree rotation ||
 || `RotateMotor(OUT_A, -75, 45)` || Backward wheel A at 75% speed for 45 degree rotation ||
 || `RotateMotor(OUT_AB, 100, 360)` || Straight forward at 100% speed for 360 degree rotation ||
 
-=== Notes ===
-
-  Rotation specifies the amount of rotation the wheel will do. 360 is one full rotation of the wheel.
+    === Notes ===
+     Rotation specifies the amount of rotation the wheel will do. 360 is one full rotation of the wheel.
