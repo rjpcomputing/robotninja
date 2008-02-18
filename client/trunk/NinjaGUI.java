@@ -7,37 +7,59 @@
  * maybe use inner classes for actionhandling
  */
 
-
-
 import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.BorderLayout.*;
-
 import javax.swing.*;
+import javax.swing.BoxLayout.*;
+import java.io.*;import java.net.*;
 
-
-public class NinjaGUI implements ActionListener {
-
+public class NinjaGUI implements ActionListener 
+{
 	private JButton moveForward, moveBack, moveLeft, moveRight;
+	private String serverName = "";
+	private Socket sktToServer = null;
+	private int serverPort = 0;
 	
-	NinjaGUI() {
+	// Constructor
+	NinjaGUI() 
+	{
 		init();
 	}
 	
-	protected void init() {   
-    JFrame frame = new JFrame("NinjaBot"); // getName() ?
-    frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-    frame.addWindowListener(new WindowAdapter() {
-    	public void windowClosing(WindowEvent e) {System.exit(0);}
-    });
+	// Main initialization method
+	protected void init() 
+	{   
+	   JFrame frame = new JFrame("NinjaBot"); // getName() ?
+   	frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+    	frame.addWindowListener(new WindowAdapter() 
+    	{
+    		public void windowClosing(WindowEvent e) 
+    		{
+    			System.exit(0);
+    		}
+   	});
+   	
+   	try
+   	{
+			serverName = "";
+			serverPort = 0;
+			sktToServer = new Socket(serverName, serverPort);
+		}
+		catch(Exception e)
+		{
+			System.out.println(e);
+		}
     
-    frame.add(buildGUI());
-    frame.pack();
-    frame.setVisible(true);
+    	frame.add(buildGUI());
+    	frame.pack();
+    	frame.setVisible(true);
 	}
 	
-	private JPanel buildGUI() {
+	// Panel to hold the buttons using a BorderLayout
+	private JPanel buildGUI() 
+	{
 		moveForward = new JButton("Forward");
 		moveBack = new JButton("Back");
 		moveLeft = new JButton("Left");
@@ -50,27 +72,38 @@ public class NinjaGUI implements ActionListener {
 		panel.add(moveRight, BorderLayout.EAST);
 		
 		moveForward.addActionListener(this);
-		moveForward.setActionCommand("forward");
+		moveForward.setActionCommand("L+100R+100");
 		moveBack.addActionListener(this);
-		moveBack.setActionCommand("back");
+		moveBack.setActionCommand("L-100R-100");
 		moveLeft.addActionListener(this);
-		moveLeft.setActionCommand("left");
+		moveLeft.setActionCommand("L+000R+100");
 		moveRight.addActionListener(this);
-		moveRight.setActionCommand("right");
+		moveRight.setActionCommand("L+100R+000");
 		
 		return panel;
 	}
 
-	public void actionPerformed(ActionEvent ae) {
+	//  When a button is pressed, send the appropriate command string to the server
+	public void actionPerformed(ActionEvent ae) 
+	{
 		String action = ae.getActionCommand();
-		//call a move-method here, something like move(action)?
-		System.out.println(action);
-
+		try
+		{
+			OutputStream out = sktToServer.getOutputStream();
+			byte b[]= action.getBytes();
+			out.write(b);
+		}
+		catch(Exception e)
+		{
+			System.out.println(e);
+		}
+		//System.out.println(action);
 	}
 	
-	
-	public static void main(String[] args) {
-		System.out.println("Go Ninja Go!");
+	// Main method to call the constructor
+	public static void main(String[] args)
+	{
+		System.out.println("Go Ninja, Go Ninja, Go!");
 		new NinjaGUI();
 	}
 }
