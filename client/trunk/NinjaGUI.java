@@ -18,9 +18,10 @@ import java.io.*;import java.net.*;
 public class NinjaGUI implements ActionListener 
 {
 	private JButton moveForward, moveBack, moveLeft, moveRight;
-	private String serverName = "";
-	private Socket sktToServer = null;
-	private int serverPort = 0;
+	private String serverName;
+	private Socket sktToServer;
+	private int serverPort;
+	private Container content;
 	
 	// Constructor
 	NinjaGUI() 
@@ -33,6 +34,10 @@ public class NinjaGUI implements ActionListener
 	{   
 	   JFrame frame = new JFrame("NinjaBot"); // getName() ?
    	frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+   	frame.setSize(800,600);
+   	frame.setResizable(false);
+   	content = frame.getContentPane();
+   	content.setLayout(null);
     	frame.addWindowListener(new WindowAdapter() 
     	{
     		public void windowClosing(WindowEvent e) 
@@ -52,8 +57,14 @@ public class NinjaGUI implements ActionListener
 			System.out.println(e);
 		}
     
-    	frame.add(buildGUI());
-    	frame.pack();
+    	JPanel video = new JPanel();
+    	video.setBounds(150, 100, 600, 480);
+    	video.setBorder(BorderFactory.createMatteBorder(5,5,5,5,Color.BLACK));
+    	JLabel videoTemp = new JLabel("VIDEO GOES HERE");
+    	video.add(videoTemp);
+    	content.add(video);
+    	content.add(buildGUI());
+    	//frame.pack();
     	frame.setVisible(true);
 	}
 	
@@ -65,11 +76,15 @@ public class NinjaGUI implements ActionListener
 		moveLeft = new JButton("Left");
 		moveRight = new JButton("Right");
 		
-		JPanel panel = new JPanel(new BorderLayout());
+		BorderLayout buttonsLayout = new BorderLayout();
+		buttonsLayout.setHgap(10);
+		buttonsLayout.setVgap(10);
+		JPanel panel = new JPanel(buttonsLayout);
 		panel.add(moveForward, BorderLayout.NORTH);
 		panel.add(moveBack, BorderLayout.SOUTH);
 		panel.add(moveLeft, BorderLayout.WEST);
 		panel.add(moveRight, BorderLayout.EAST);
+		panel.setBounds(0,0,150,100);
 		
 		moveForward.addActionListener(this);
 		moveForward.setActionCommand("L+100R+100");
