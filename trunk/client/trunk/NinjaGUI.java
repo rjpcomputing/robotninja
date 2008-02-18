@@ -12,6 +12,7 @@
 import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.BorderLayout.*;
 
 import javax.swing.*;
 
@@ -42,11 +43,11 @@ public class NinjaGUI implements ActionListener {
 		moveLeft = new JButton("Left");
 		moveRight = new JButton("Right");
 		
-		JPanel panel = new JPanel();
-		panel.add(moveForward);
-		panel.add(moveBack);
-		panel.add(moveLeft);
-		panel.add(moveRight);
+		JPanel panel = new JPanel(new BorderLayout());
+		panel.add(moveForward, BorderLayout.NORTH);
+		panel.add(moveBack, BorderLayout.SOUTH);
+		panel.add(moveLeft, BorderLayout.WEST);
+		panel.add(moveRight, BorderLayout.EAST);
 		
 		moveForward.addActionListener(this);
 		moveForward.setActionCommand("forward");
