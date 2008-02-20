@@ -54,3 +54,5 @@ The purpose of these standards is to keep all aspects of the program on the same
 
     === Notes ===
      Rotation specifies the amount of rotation the wheel will do. 360 is one full rotation of the wheel.
+
+     Further development of the protocol will be discussed. I.e. enabling the client to send a command to manually open or close the claw on the robot.
