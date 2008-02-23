@@ -22,6 +22,7 @@ public class NinjaGUI implements ActionListener
 	private Socket sktToServer;
 	private int serverPort;
 	private Container content;
+	private EchoClient echo;
 	
 	// Constructor
 	NinjaGUI() 
@@ -34,7 +35,7 @@ public class NinjaGUI implements ActionListener
 	{   
 	   JFrame frame = new JFrame("NinjaBot"); // getName() ?
    	frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-   	frame.setSize(800,600);
+   	frame.setSize(600,650);
    	frame.setResizable(false);
    	content = frame.getContentPane();
    	content.setLayout(null);
@@ -45,25 +46,17 @@ public class NinjaGUI implements ActionListener
     			System.exit(0);
     		}
    	});
+
+		echo = new EchoClient("207.72.173.138", 4444);
    	
-   	try
-   	{
-			serverName = "";
-			serverPort = 0;
-			sktToServer = new Socket(serverName, serverPort);
-		}
-		catch(Exception e)
-		{
-			System.out.println(e);
-		}
-    
     	JPanel video = new JPanel();
-    	video.setBounds(150, 100, 600, 480);
-    	video.setBorder(BorderFactory.createMatteBorder(5,5,5,5,Color.BLACK));
+    	video.setBounds(0, 150, 600, 480);
+    	//video.setBorder(BorderFactory.createMatteBorder(5,5,5,5,Color.BLACK));
     	JLabel videoTemp = new JLabel("VIDEO GOES HERE");
     	video.add(videoTemp);
     	content.add(video);
     	content.add(buildGUI());
+    	content.setBackground(Color.BLACK);
     	//frame.pack();
     	frame.setVisible(true);
 	}
@@ -79,12 +72,14 @@ public class NinjaGUI implements ActionListener
 		BorderLayout buttonsLayout = new BorderLayout();
 		buttonsLayout.setHgap(10);
 		buttonsLayout.setVgap(10);
+		
 		JPanel panel = new JPanel(buttonsLayout);
+		panel.setBackground(Color.BLACK);
 		panel.add(moveForward, BorderLayout.NORTH);
 		panel.add(moveBack, BorderLayout.SOUTH);
 		panel.add(moveLeft, BorderLayout.WEST);
 		panel.add(moveRight, BorderLayout.EAST);
-		panel.setBounds(0,0,150,100);
+		panel.setBounds(200,25,150,100);
 		
 		moveForward.addActionListener(this);
 		moveForward.setActionCommand("L+100R+100");
@@ -102,16 +97,7 @@ public class NinjaGUI implements ActionListener
 	public void actionPerformed(ActionEvent ae) 
 	{
 		String action = ae.getActionCommand();
-		try
-		{
-			OutputStream out = sktToServer.getOutputStream();
-			byte b[]= action.getBytes();
-			out.write(b);
-		}
-		catch(Exception e)
-		{
-			System.out.println(e);
-		}
+		echo.sendString(action);
 		//System.out.println(action);
 	}
 	

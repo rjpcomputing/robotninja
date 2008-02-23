@@ -343,7 +343,7 @@ public class VideoTransmit {
 	// Create a video transmit object with the specified params.
 	VideoTransmit vt = new VideoTransmit(new MediaLocator(args[0]),
 					     args[1],
-					     args[2]);
+					     args[2]);					     
 	// Start the transmission
 	String result = vt.start();
 
