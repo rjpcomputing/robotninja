@@ -17,7 +17,7 @@ import java.io.*;import java.net.*;
 
 public class NinjaGUI implements ActionListener 
 {
-	private JButton moveForward, moveBack, moveLeft, moveRight;
+	private JButton moveForward, moveBack, moveLeft, moveRight, exit;
 	private String serverName;
 	private Socket sktToServer;
 	private int serverPort;
@@ -34,11 +34,11 @@ public class NinjaGUI implements ActionListener
 	protected void init() 
 	{   
 	   JFrame frame = new JFrame("NinjaBot"); // getName() ?
-   	frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-   	frame.setSize(600,650);
-   	frame.setResizable(false);
-   	content = frame.getContentPane();
-   	content.setLayout(null);
+   	 	frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+	   frame.setSize(600,650);
+	   frame.setResizable(false);
+	   content = frame.getContentPane();
+	   content.setLayout(null);
     	frame.addWindowListener(new WindowAdapter() 
     	{
     		public void windowClosing(WindowEvent e) 
@@ -47,14 +47,19 @@ public class NinjaGUI implements ActionListener
     		}
    	});
 
-		echo = new EchoClient("207.72.173.138", 4444);
+		echo = new EchoClient("127.0.0.1", 8080);
    	
+		exit = new JButton("Exit");
+		exit.setBounds(500, 50, 50, 50);
+		exit.addActionListener(this);
+		exit.setActionCommand("X.........");
     	JPanel video = new JPanel();
     	video.setBounds(0, 150, 600, 480);
     	//video.setBorder(BorderFactory.createMatteBorder(5,5,5,5,Color.BLACK));
     	JLabel videoTemp = new JLabel("VIDEO GOES HERE");
     	video.add(videoTemp);
     	content.add(video);
+    	content.add(exit);
     	content.add(buildGUI());
     	content.setBackground(Color.BLACK);
     	//frame.pack();
