@@ -26,7 +26,6 @@
  * around because, only recently, Java implimented enums. This is more
  * compatible then using enum.
  * @author rpusztai
- *
  */
 public final class Direction
 {

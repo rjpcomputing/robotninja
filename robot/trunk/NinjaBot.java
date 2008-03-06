@@ -1,5 +1,5 @@
 /******************************************************************************
-* Copyright (C) 2008 Ryan Pusztai All rights reserved.
+* Copyright (C) 2008 Ryan Pusztai, Adam Parker All rights reserved.
 *
 * Permission is hereby granted, free of charge, to any person obtaining
 * a copy of this software and associated documentation files (the
@@ -57,7 +57,11 @@ public class NinjaBot
 	public static void main( String[] args ) throws Exception
 	{
 		NinjaBot app = new NinjaBot();
-		app.GetNavigation().StartMotors( Direction.FORWARD, 100 );
-		Thread.sleep( 2000 );
+		while(true)
+		{
+			app.GetNavigation().Navigate(app.GetBTCommunication().ReadCommand());
+		}
+		//app.GetNavigation().StartMotors( Direction.FORWARD, 100 );
+		//Thread.sleep( 2000 );
 	}
 }
