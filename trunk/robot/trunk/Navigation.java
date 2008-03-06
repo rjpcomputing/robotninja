@@ -1,5 +1,5 @@
 /******************************************************************************
-* Copyright (C) 2008 Ryan Pusztai All rights reserved.
+* Copyright (C) 2008 Ryan Pusztai, Adam Parker All rights reserved.
 *
 * Permission is hereby granted, free of charge, to any person obtaining
 * a copy of this software and associated documentation files (the
@@ -34,8 +34,8 @@ public class Navigation
 	 */
 	public Navigation()
 	{
-		Motor.B.regulateSpeed( true );
-		Motor.C.regulateSpeed( true );
+		Motor.B.regulateSpeed( false );
+		Motor.C.regulateSpeed( false );
 	}
 	
 	/**
@@ -93,7 +93,28 @@ public class Navigation
 	 * one single method call.
 	 * @param cmd The Command to run on the robot.
 	 */
-	public void Navigate( Command cmd )
+	public void Navigate( Command[] cmds )
 	{
+		cmds[0].GetMotor().setPower(cmds[0].GetPower());
+		if(cmds[0].GetDirection() == Direction.FORWARD)
+		{
+			cmds[0].GetMotor().forward();
+		}
+		else
+		{
+			cmds[0].GetMotor().backward();
+		}
+
+		cmds[1].GetMotor().setPower(cmds[1].GetPower());
+		if(cmds[1].GetDirection() == Direction.FORWARD)
+		{
+			cmds[1].GetMotor().forward();
+		}
+		else
+		{
+			cmds[1].GetMotor().backward();
+		}
+		
+		
 	}
 }

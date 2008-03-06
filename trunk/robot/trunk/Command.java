@@ -1,5 +1,5 @@
 /******************************************************************************
-* Copyright (C) 2008 Ryan Pusztai All rights reserved.
+* Copyright (C) 2008 Ryan Pusztai, Adam Parker All rights reserved.
 *
 * Permission is hereby granted, free of charge, to any person obtaining
 * a copy of this software and associated documentation files (the
@@ -21,11 +21,64 @@
 * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ******************************************************************************/
 
+import lejos.nxt.*;
+
 /**
  * This class will hold details about the commands sent
  * over Bluetooth.
  */
 public class Command
 {
+	private Motor motor;
+	private int motorPower; //rimport lejos.nxt.*;ight
+	private Direction motorDirection;//teh CLAW!!! pwned
 	
+	public Motor GetMotor()
+	{
+		return motor;
+	}
+
+	public int GetPower()
+	{
+		return motorPower;
+	}
+
+	public Direction GetDirection()
+	{
+		return motorDirection;
+	}
+
+	public void SetMotor(char pMotor)
+	{
+		if(pMotor == 'L')
+		{
+			motor = Motor.C;
+		}
+		else if (pMotor == 'R')
+		{
+			motor = Motor.B;
+		}
+		else
+		{
+			motor = Motor.A;
+		}
+	}
+
+	public void SetPower(int pPower)
+	{
+		motorPower = pPower;
+	}
+
+	public void SetDirection(char pDirection)
+	{
+		if(pDirection == '+')
+		{
+			motorDirection = Direction.FORWARD;
+		}
+		else
+		{
+			motorDirection = Direction.BACKWARD;
+		}
+	}
 }
+
