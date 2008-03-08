@@ -9,7 +9,6 @@ This article shows how to setup the LEGO NXT brick with an optional firmware.
 ----
 
 == Reflashing the Firmware ==
-This is _not_ required unless we find that we need multi-dimentional arrays.
 
 === Place the NXT into reset ===
   * Power up the NXT.
