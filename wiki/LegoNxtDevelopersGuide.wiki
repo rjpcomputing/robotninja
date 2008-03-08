@@ -1,5 +1,5 @@
-#summary This is how to setup and work with NXC on the LEGO NXT brick for this project.
-#labels Phase-Implementation,Featured,Lego,NXT,Robot,NXC
+#summary This is how to setup and work with LeJOS on the LEGO NXT brick for this project.
+#labels Phase-Implementation,Featured,Lego,NXT,Robot,LeJOS
 
 = Purpose =
 ----
@@ -12,5 +12,5 @@ You can get all the files talked about in the LEGO DevSuite. You can find it on 
 = Table of Contents =
   # [RobotBuildInstructions Robot Build Instructions]
   # [LegoNxtInitialSetup Initial Setup]
-  # [LegoNxtNxc NXC (Not eXactly C)]
+  # [LegoNxtLeJOS LeJOS (Java for the NXT)]
   # [LegoNxtBluetooth Connecting via Bluetooth]
