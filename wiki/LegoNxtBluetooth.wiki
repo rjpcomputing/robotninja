@@ -82,4 +82,4 @@ $ cat /dev/rfcomm0 | od -t x1 -w1 -v -Ax
 Most of this comes from this [http://mtc.epfl.ch/courses/ProblemSolving-2007/nxt.html website].
 
 == Windows ==
-I am not sure yet. I don't have any instructions planned for this yet.
+Instructions can be found in the `readme.html` file that comes with the LeJOS download.
