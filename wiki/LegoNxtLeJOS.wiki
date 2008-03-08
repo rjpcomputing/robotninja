@@ -1,0 +1,18 @@
+#summary Explain what LeJOS is and how to install it.
+#labels Phase-Implementation,NXT,Robot,LeJOS
+
+= Purpose =
+
+leJOS (pronounced like the Spanish word "lejos" for "far") is a tiny Java Virtual Machine.
+
+Describe how to install LeJOS and get the LeJOS firmware onto the brick. Most of these instructions come from the `readme.html` file that comes in the LeJOS download so they will not be repeated here.
+
+= LeJOS Documentation =
+
+  * [http://lejos.sourceforge.net/p_technologies/nxt/nxj/api/index.html JavaDoc Version]
+
+= Steps =
+
+  # Download [http://lejos.sourceforge.net/p_technologies/nxt/nxj/downloads.php LeJOS].
+  # Extract the download where ever you want and open the `readme.html` file.
+  # Follow the steps in the readme for the platform you are using. Make sure you get the first program transfered to the robot. This will make sure that you can continue to use the code provided here.
