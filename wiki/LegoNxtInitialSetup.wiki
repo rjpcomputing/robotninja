@@ -1,5 +1,5 @@
 #summary Describes any setup needed to program and use the LEGO NXT brick.
-#labels Phase-Implementation,Lego,NXT
+#labels Phase-Implementation,Lego,LeJOS
 
 = Purpose =
 ----
@@ -15,15 +15,5 @@ This is _not_ required unless we find that we need multi-dimentional arrays.
   * Power up the NXT.
   * Push the reset button for more than 4 seconds. The reset button is on the back and hidden below the USB
 
-=== Linux ===
-Not yet documented. Coming soon. Remember this is not needed unless we use some really advanced features of NXC.
-
-=== Windows ===
-You can find instructions for this in the manual that comes with the MindStorms package. Here  is a brief description of what you need to do:
-
-  * Make sure the LEGO NXT brick is in reset. (See above)
-  * Install the LEGO MINDSTORMS NXT Software from the supplied CD-ROM.
-  * Put the firmware file in the following folder: `...\Program Files\LEGO Software\LEGO MINDSTORMS NXT\engine\Firmware`.
-  * After relaunching of the LEGO MINDSTORMS NXT Software, go to the "Tool" menu and select "Update NXT Firmware...". 
-  * The new firmware should now be available within the "Available Firmware Files".
-  * Select the file and press "Download"
+=== LeJOS ===
+Follow the readme.html included with the LeJOS download.
