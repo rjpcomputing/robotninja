@@ -15,4 +15,4 @@ This article shows how to setup the LEGO NXT brick with an optional firmware.
   * Push the reset button for more than 4 seconds. The reset button is on the back and hidden below the USB
 
 === LeJOS ===
-Follow the readme.html included with the LeJOS download.
+Follow the `readme.html` included with the LeJOS download on how to update the firmware.
