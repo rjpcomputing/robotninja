@@ -39,9 +39,9 @@ The purpose of these standards is to keep all aspects of the program on the same
     * If the robot does not acknowledge (nack) or fails to respond to the server, an error is sent to the client. A negative message response is `false` (0).
 
   Additional commands (please note that all of these commands still follow the 10 character length):
-   || 'x.........' || Disconnect ||
-   || 'o.........' || Open Claw ||
-   || 'c.........' || Close Claw ||
+ || 'x.........' || Disconnect ||
+ || 'o.........' || Open Claw ||
+ || 'c.........' || Close Claw ||
    
 
   == Server-Robot Communication ==
