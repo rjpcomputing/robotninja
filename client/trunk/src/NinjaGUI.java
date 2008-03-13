@@ -8,38 +8,45 @@
  */
 
 import java.util.*;
+import java.util.Dictionary;
+import java.util.Hashtable;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.Graphics.*;
 import java.awt.BorderLayout.*;
 import javax.swing.*;
 import javax.swing.BoxLayout.*;
-import java.io.*;import java.net.*;
+import java.io.*;
+import java.net.*;
 
-public class NinjaGUI implements ActionListener 
+public class NinjaGUI extends JFrame implements ActionListener 
 {
-	private JButton moveForward, moveBack, moveLeft, moveRight, exit;
+	private JButton moveForward, moveBack, moveLeft, moveRight, exit, closeClaw, openClaw;
+	private JSlider slider;
 	private String serverName;
 	private Socket sktToServer;
 	private int serverPort;
 	private Container content;
 	private EchoClient echo;
+	private JPanel panel, temp;
 	
 	// Constructor
 	NinjaGUI() 
 	{
+		super("NinjaBot");
 		init();
 	}
 	
 	// Main initialization method
 	protected void init() 
 	{   
-	   JFrame frame = new JFrame("NinjaBot"); // getName() ?
-   	 	frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-	   frame.setSize(600,650);
-	   frame.setResizable(false);
-	   content = frame.getContentPane();
+	   //super("NinjaBot"); // getName() ?
+   	   setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+	   setSize(600,650);
+	   setResizable(false);
+	   content = getContentPane();
 	   content.setLayout(null);
-    	frame.addWindowListener(new WindowAdapter() 
+    	addWindowListener(new WindowAdapter() 
     	{
     		public void windowClosing(WindowEvent e) 
     		{
@@ -48,22 +55,51 @@ public class NinjaGUI implements ActionListener
    	});
 
 		echo = new EchoClient("127.0.0.1", 8080);
-   	
-		exit = new JButton("Exit");
-		exit.setBounds(500, 50, 50, 50);
+
+		exit = new JButton("Disconnect");
+		exit.setBounds(500, 10, 100, 25);
 		exit.addActionListener(this);
 		exit.setActionCommand("X.........");
+		closeClaw = new JButton("Close Claw");
+		openClaw = new JButton("Open Claw");
+		openClaw.addActionListener(this);
+		openClaw.setActionCommand("o.........");
+		closeClaw.addActionListener(this);
+		closeClaw.setActionCommand("c.........");
+		openClaw.setBounds(500, 60, 100, 25);
+		closeClaw.setBounds(500, 110, 100, 25);
     	JPanel video = new JPanel();
     	video.setBounds(0, 150, 600, 480);
+		
+		slider = new JSlider(JSlider.VERTICAL);
+		slider.setBounds(25, 25, 50, 100);
+		slider.setMajorTickSpacing(25);
+		slider.setPaintTicks(true);
+		
+		//Create the label table
+		Hashtable labelTable = new Hashtable();
+		labelTable.put( new Integer(0), new JLabel("000") );
+		labelTable.put( new Integer(25), new JLabel("025") );
+		labelTable.put( new Integer(50), new JLabel("050") );
+		labelTable.put( new Integer(75), new JLabel("075") );
+		labelTable.put( new Integer(100), new JLabel("100") );
+		slider.setLabelTable( labelTable );
+
+		slider.setPaintLabels(true);
+		
     	//video.setBorder(BorderFactory.createMatteBorder(5,5,5,5,Color.BLACK));
     	JLabel videoTemp = new JLabel("VIDEO GOES HERE");
     	video.add(videoTemp);
+		content.add(slider);
     	content.add(video);
+		content.add(openClaw);
+		content.add(closeClaw);
     	content.add(exit);
-    	content.add(buildGUI());
-    	content.setBackground(Color.BLACK);
+		temp = buildGUI();
+    	content.add(temp);
+		content.setBackground(Color.BLACK);
     	//frame.pack();
-    	frame.setVisible(true);
+    	setVisible(true);
 	}
 	
 	// Panel to hold the buttons using a BorderLayout
@@ -78,7 +114,8 @@ public class NinjaGUI implements ActionListener
 		buttonsLayout.setHgap(10);
 		buttonsLayout.setVgap(10);
 		
-		JPanel panel = new JPanel(buttonsLayout);
+		panel = new JPanel(buttonsLayout);
+		panel.setBackground(null);
 		panel.setBackground(Color.BLACK);
 		panel.add(moveForward, BorderLayout.NORTH);
 		panel.add(moveBack, BorderLayout.SOUTH);
@@ -87,13 +124,13 @@ public class NinjaGUI implements ActionListener
 		panel.setBounds(200,25,150,100);
 		
 		moveForward.addActionListener(this);
-		moveForward.setActionCommand("L+100R+100");
+		moveForward.setActionCommand("forward");
 		moveBack.addActionListener(this);
-		moveBack.setActionCommand("L-100R-100");
+		moveBack.setActionCommand("backward");
 		moveLeft.addActionListener(this);
-		moveLeft.setActionCommand("L+000R+100");
+		moveLeft.setActionCommand("left");
 		moveRight.addActionListener(this);
-		moveRight.setActionCommand("L+100R+000");
+		moveRight.setActionCommand("right");
 		
 		return panel;
 	}
@@ -101,9 +138,30 @@ public class NinjaGUI implements ActionListener
 	//  When a button is pressed, send the appropriate command string to the server
 	public void actionPerformed(ActionEvent ae) 
 	{
+		String speed = "000000";
+		speed = speed + slider.getValue();
+		speed = speed.substring(speed.length() - 3, speed.length());
+		
 		String action = ae.getActionCommand();
-		echo.sendString(action);
+		
+		if(action == "forward")
+		{
+			action = "L+"+speed+"R+"+speed;
+		}
+		else if (action == "backward")
+		{
+			action = "L-"+speed+"R-"+speed;
+		}
+		else if (action == "left")
+		{
+			action = "L+000R+"+speed;
+		}
+		else if (action == "right")
+		{
+			action = "L+"+speed+"R+000";
+		}
 		//System.out.println(action);
+		echo.sendString(action);
 	}
 	
 	// Main method to call the constructor
