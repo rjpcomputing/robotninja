@@ -38,11 +38,11 @@ The purpose of these standards is to keep all aspects of the program on the same
     * Server will acknowledge (ack) receipt of commands from client. A positive message response is `true` (1).
     * If the robot does not acknowledge (nack) or fails to respond to the server, an error is sent to the client. A negative message response is `false` (0).
 
-  Additional commands:
+  Additional commands (please note that all of these commands still follow the 10 character length):
    || 'x.........' || Disconnect ||
    || 'o.........' || Open Claw ||
    || 'c.........' || Close Claw ||
-   Please note that all of these commands still follow the 10 character length.
+   
 
   == Server-Robot Communication ==
     * Server sends commands to robot after translating them into a format the robot can execute.
