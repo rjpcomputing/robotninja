@@ -25,13 +25,13 @@ The purpose of these standards is to keep all aspects of the program on the same
    `L[+|-]###R[+|-]###`
 
    Some examples of this regular expression in action are presented below. Remember, when you are looking at the robot from behind (sensor “eyes” pointing away from you), the left wheel is “L” and the right wheel is “R”. L+100 indicates rotating the left wheel forward at 100% speed. R-075 indicates rotating the right wheel backward at 75% speed. Here are some more examples:
- || *Example* || *Description* ||
- || `L+100R+100` || Full speed ahead ||
- || `L+075R+075` || Forward at 75% speed ||
- || `L-035R-035` || Backward at 35% speed ||
- || `L+100R+000` || Turn forward right at full speed (turning left tire forward makes the robot go forward to the right) ||
- || `L-100R-000` || Turn backward left at full speed ||
- || `L+000R+000` || Robot stops moving ||
+|| *Example* || *Description* ||
+|| `L+100R+100` || Full speed ahead ||
+|| `L+075R+075` || Forward at 75% speed ||
+|| `L-035R-035` || Backward at 35% speed ||
+|| `L+100R+000` || Turn forward right at full speed (turning left tire forward makes the robot go forward to the right) ||
+|| `L-100R-000` || Turn backward left at full speed ||
+|| `L+000R+000` || Robot stops moving ||
 
    As you can see, all commands must follow the 10 character length.
     * If client-to-server connectivity fails, the client will present an error message.
