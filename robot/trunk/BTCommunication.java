@@ -104,20 +104,65 @@ public class BTCommunication
 		Command cmdSegmentOne = new Command();
 		Command cmdSegmentTwo = new Command();
 
-		// Check for server exit command.
-		if ( temp[0] != 'X' )
-		{
-			cmdSegmentOne.SetMotor(temp[0]);
-			cmdSegmentOne.SetPower(charToInt(temp[2], temp[3], temp[4]));
-			cmdSegmentOne.SetDirection(temp[1]);
-
-			cmdSegmentTwo.SetMotor(temp[5]);
-			cmdSegmentTwo.SetPower(charToInt(temp[7], temp[8], temp[9]));
-			cmdSegmentTwo.SetDirection(temp[6]);
-		}
-		else
+		// Check for command type.
+		if ( temp[0] == 'X' || temp[0] == 'x' )						// Server exit command
 		{
 			System.exit(0);
+		}
+		else if ( temp[0] == 'C' || temp[0] == 'c' )				// Claw close command
+		{
+			try
+			{
+				
+				cmdSegmentOne.SetMotor( 'C' );
+				cmdSegmentOne.SetPower( 30 );
+				cmdSegmentOne.SetDirection( '-' );
+
+				cmdSegmentTwo.SetMotor( 'C' );
+				cmdSegmentTwo.SetPower( 30 );
+				cmdSegmentTwo.SetDirection( '-' );
+			}
+			catch( Exception e )
+			{
+				LCD.drawString( e.getMessage(), 0, 3, false );
+				LCD.refresh();
+			}
+		}
+		else if ( temp[0] == 'O' || temp[0] == 'o' )				// Claw open command
+		{
+			try
+			{
+				cmdSegmentOne.SetMotor( 'C' );
+				cmdSegmentOne.SetPower( 50 );
+				cmdSegmentOne.SetDirection( '+' );
+
+				cmdSegmentTwo.SetMotor( 'C' );
+				cmdSegmentTwo.SetPower( 50 );
+				cmdSegmentTwo.SetDirection( '+' );
+			}
+			catch( Exception e )
+			{
+				LCD.drawString( e.getMessage(), 0, 3, false );
+				LCD.refresh();
+			}
+		}
+		else														// All other commands
+		{
+			try
+			{
+				cmdSegmentOne.SetMotor( temp[0] );
+				cmdSegmentOne.SetPower( charToInt( temp[2], temp[3], temp[4] ) );
+				cmdSegmentOne.SetDirection( temp[1] );
+
+				cmdSegmentTwo.SetMotor( temp[5] );
+				cmdSegmentTwo.SetPower( charToInt( temp[7], temp[8], temp[9] ) );
+				cmdSegmentTwo.SetDirection( temp[6] );
+			}
+			catch( Exception e )
+			{
+				LCD.drawString( e.getMessage(), 0, 3, false );
+				LCD.refresh();
+			}
 		}
 
 		Command[] commands = new Command[2];
@@ -136,78 +181,5 @@ public class BTCommunication
 		
 		return sum;
 	}
-	
-	/*public static void main(String [] args)  throws Exception 
-	{
-		String connected = "Connected";
-        String waiting = "Waiting...";
-        String closing = "Closing...";
-        String fail	   = "Failure...";
-        
-		LCD.drawString(waiting,0,0);
-		LCD.refresh();
-
-		BTConnection btc = Bluetooth.waitForConnection();
-		
-		LCD.clear();
-		LCD.drawString(connected,0,0);
-		LCD.refresh();
-
-		DataInputStream dis = btc.openDataInputStream();
-		DataOutputStream dos = btc.openDataOutputStream();
-
-		// Loop counter.
-		int iter = 0;
-		while ( true )
-		{
-			//00:16:53:04:CE:24
-			try
-			{
-				String msg = "";
-				for( int i = 0; i < 10; i++ )
-				{
-					char c = dis.readChar();
-					msg += c;
-				}
-
-				if ( msg.charAt( 0 ) == 'x' )
-				{
-					break;
-				}
-
-				// Display received message.
-				LCD.drawString( msg, 0, 1, false );
-				LCD.refresh();
-
-				// Ack
-				dos.writeBoolean( true );
-				dos.flush();
-
-				// Display Loop count.
-				LCD.drawInt( iter, 0, 0, 3 );
-				LCD.refresh();
-
-				// Increment loop count.
-				iterReceive++;
-			}
-			catch(IOException ex)
-			{
-				LCD.drawString( fail,0,0 );
-				LCD.refresh();
-				break;
-			}
-
-		}
-		
-		dis.close();
-		dos.close();
-		Thread.sleep(100); // wait for data to drain
-		LCD.clear();
-		LCD.drawString(closing,0,0);
-		LCD.refresh();
-		btc.close();
-		LCD.clear();
-	}
-	*/
 }
 
