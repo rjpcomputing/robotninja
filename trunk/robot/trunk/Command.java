@@ -27,11 +27,11 @@ import lejos.nxt.*;
  * This class will hold details about the commands sent
  * over Bluetooth.
  */
-public class Command
+public class Command extends Exception
 {
 	private Motor motor;
-	private int motorPower; //rimport lejos.nxt.*;ight
-	private Direction motorDirection;//teh CLAW!!! pwned
+	private int motorPower;
+	private Direction motorDirection;
 	
 	public Motor GetMotor()
 	{
@@ -48,7 +48,7 @@ public class Command
 		return motorDirection;
 	}
 
-	public void SetMotor(char pMotor)
+	public void SetMotor(char pMotor) throws Exception
 	{
 		if(pMotor == 'L')
 		{
@@ -58,9 +58,13 @@ public class Command
 		{
 			motor = Motor.B;
 		}
-		else
+		else if (pMotor == 'C')
 		{
 			motor = Motor.A;
+		}
+		else
+		{
+			throw new Exception( "Unsupported motor set" );
 		}
 	}
 

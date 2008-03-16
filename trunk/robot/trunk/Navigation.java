@@ -34,8 +34,11 @@ public class Navigation
 	 */
 	public Navigation()
 	{
+		Motor.A.regulateSpeed( false );
 		Motor.B.regulateSpeed( false );
 		Motor.C.regulateSpeed( false );
+
+		m_clawIsOpen = false;
 	}
 	
 	/**
@@ -95,26 +98,56 @@ public class Navigation
 	 */
 	public void Navigate( Command[] cmds )
 	{
-		cmds[0].GetMotor().setPower(cmds[0].GetPower());
-		if(cmds[0].GetDirection() == Direction.FORWARD)
+		// Check if it is a claw command.
+		if ( cmds[0].GetMotor() == Motor.A )
 		{
-			cmds[0].GetMotor().forward();
+			if ( cmds[0].GetDirection() == Direction.FORWARD )
+			{
+				// Check if the claw is not opened so it can be opened.
+				if ( !m_clawIsOpen )
+				{
+					cmds[0].GetMotor().rotate( 60 );
+					m_clawIsOpen = true;
+				}
+			}
+			
+			if ( cmds[0].GetDirection() == Direction.BACKWARD )
+			{
+				// Check if the claw is open so it can be closed.
+				if ( m_clawIsOpen )
+				{
+					cmds[0].GetMotor().rotate( -60 );
+					m_clawIsOpen = false;
+				}
+			}
+			
 		}
 		else
 		{
-			cmds[0].GetMotor().backward();
-		}
+			cmds[0].GetMotor().setPower( cmds[0].GetPower() );
+			
+			if ( cmds[0].GetDirection() == Direction.FORWARD )
+			{
+				cmds[0].GetMotor().forward();
+			}
+			else
+			{
+				cmds[0].GetMotor().backward();
+			}
 
-		cmds[1].GetMotor().setPower(cmds[1].GetPower());
-		if(cmds[1].GetDirection() == Direction.FORWARD)
-		{
-			cmds[1].GetMotor().forward();
+			cmds[1].GetMotor().setPower( cmds[1].GetPower() );
+			
+			if ( cmds[1].GetDirection() == Direction.FORWARD )
+			{
+				cmds[1].GetMotor().forward();
+			}
+			else
+			{
+				cmds[1].GetMotor().backward();
+			}
 		}
-		else
-		{
-			cmds[1].GetMotor().backward();
-		}
-		
 		
 	}
+
+	private boolean m_clawIsOpen;
 }
