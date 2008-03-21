@@ -19,7 +19,7 @@ import javax.swing.BoxLayout.*;
 import java.io.*;
 import java.net.*;
 
-public class NinjaGUI extends JFrame implements ActionListener 
+public class NinjaGUI extends JFrame implements ActionListener
 {
 	private JButton moveForward, moveBack, moveLeft, moveRight, exit, closeClaw, openClaw;
 	private JSlider slider;
@@ -27,7 +27,6 @@ public class NinjaGUI extends JFrame implements ActionListener
 	private Socket sktToServer;
 	private int serverPort;
 	private Container content;
-	private EchoClient echo;
 	private JPanel panel, temp;
 	
 	// Constructor
@@ -41,11 +40,12 @@ public class NinjaGUI extends JFrame implements ActionListener
 	protected void init() 
 	{   
 	   //super("NinjaBot"); // getName() ?
-   	   setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+   	setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 	   setSize(600,650);
 	   setResizable(false);
 	   content = getContentPane();
 	   content.setLayout(null);
+			   
     	addWindowListener(new WindowAdapter() 
     	{
     		public void windowClosing(WindowEvent e) 
@@ -53,8 +53,6 @@ public class NinjaGUI extends JFrame implements ActionListener
     			System.exit(0);
     		}
    	});
-
-		echo = new EchoClient("127.0.0.1", 8080);
 
 		exit = new JButton("Disconnect");
 		exit.setBounds(500, 10, 100, 25);
@@ -70,14 +68,34 @@ public class NinjaGUI extends JFrame implements ActionListener
 		closeClaw.setBounds(500, 110, 100, 25);
     	JPanel video = new JPanel();
     	video.setBounds(0, 150, 600, 480);
-		
-		slider = new JSlider(JSlider.VERTICAL);
+    	
+    			slider = new JSlider(JSlider.VERTICAL);
 		slider.setBounds(25, 25, 50, 100);
 		slider.setMajorTickSpacing(25);
 		slider.setPaintTicks(true);
 		
+		video.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("pressed W"),"w_pressed");
+		video.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("pressed S"),"s_pressed");
+		video.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("pressed A"),"a_pressed");
+		video.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("pressed D"),"d_pressed");
+		video.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("released W"),"w_released");
+		video.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("released S"),"s_released");
+		video.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("released A"),"a_released");
+		video.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("released D"),"d_released");
+		
+		video.getActionMap().put("w_pressed", new ActionSet("forward", slider));
+		video.getActionMap().put("s_pressed", new ActionSet("backward", slider));
+		video.getActionMap().put("a_pressed", new ActionSet("left", slider));
+		video.getActionMap().put("d_pressed", new ActionSet("right", slider));
+		video.getActionMap().put("w_released", new ActionSet("halt", slider));
+		video.getActionMap().put("s_released", new ActionSet("halt", slider));
+		video.getActionMap().put("a_released", new ActionSet("halt", slider));
+		video.getActionMap().put("d_released", new ActionSet("halt", slider));
+		
+
+		
 		//Create the label table
-		Hashtable labelTable = new Hashtable();
+		Hashtable<Integer, JLabel> labelTable = new Hashtable<Integer, JLabel>();
 		labelTable.put( new Integer(0), new JLabel("000") );
 		labelTable.put( new Integer(25), new JLabel("025") );
 		labelTable.put( new Integer(50), new JLabel("050") );
@@ -138,30 +156,7 @@ public class NinjaGUI extends JFrame implements ActionListener
 	//  When a button is pressed, send the appropriate command string to the server
 	public void actionPerformed(ActionEvent ae) 
 	{
-		String speed = "000000";
-		speed = speed + slider.getValue();
-		speed = speed.substring(speed.length() - 3, speed.length());
-		
-		String action = ae.getActionCommand();
-		
-		if(action == "forward")
-		{
-			action = "L+"+speed+"R+"+speed;
-		}
-		else if (action == "backward")
-		{
-			action = "L-"+speed+"R-"+speed;
-		}
-		else if (action == "left")
-		{
-			action = "L+000R+"+speed;
-		}
-		else if (action == "right")
-		{
-			action = "L+"+speed+"R+000";
-		}
-		//System.out.println(action);
-		echo.sendString(action);
+
 	}
 	
 	// Main method to call the constructor
