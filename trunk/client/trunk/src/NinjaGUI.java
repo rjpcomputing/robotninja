@@ -28,6 +28,7 @@ public class NinjaGUI extends JFrame implements ActionListener
 	private int serverPort;
 	private Container content;
 	private JPanel panel, temp;
+	public String command;
 	
 	// Constructor
 	NinjaGUI() 
@@ -69,30 +70,34 @@ public class NinjaGUI extends JFrame implements ActionListener
     	JPanel video = new JPanel();
     	video.setBounds(0, 150, 600, 480);
     	
-    			slider = new JSlider(JSlider.VERTICAL);
+    	slider = new JSlider(JSlider.VERTICAL);
 		slider.setBounds(25, 25, 50, 100);
 		slider.setMajorTickSpacing(25);
 		slider.setPaintTicks(true);
 		
-		video.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("pressed W"),"w_pressed");
-		video.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("pressed S"),"s_pressed");
-		video.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("pressed A"),"a_pressed");
-		video.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("pressed D"),"d_pressed");
-		video.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("released W"),"w_released");
-		video.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("released S"),"s_released");
-		video.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("released A"),"a_released");
-		video.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("released D"),"d_released");
+		ActionSet forward = new ActionSet("forward", slider, this);
+		ActionSet backward = new ActionSet("backward", slider, this);
+		ActionSet left = new ActionSet("left", slider, this);
+		ActionSet right = new ActionSet("right", slider, this);
+		ActionSet halt = new ActionSet("halt", slider, this);		
 		
-		video.getActionMap().put("w_pressed", new ActionSet("forward", slider));
-		video.getActionMap().put("s_pressed", new ActionSet("backward", slider));
-		video.getActionMap().put("a_pressed", new ActionSet("left", slider));
-		video.getActionMap().put("d_pressed", new ActionSet("right", slider));
-		video.getActionMap().put("w_released", new ActionSet("halt", slider));
-		video.getActionMap().put("s_released", new ActionSet("halt", slider));
-		video.getActionMap().put("a_released", new ActionSet("halt", slider));
-		video.getActionMap().put("d_released", new ActionSet("halt", slider));
+		video.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("W"),"w_pressed");
+		video.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("S"),"s_pressed");
+		video.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("A"),"a_pressed");
+		video.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("D"),"d_pressed");
+		//video.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("released W"),"w_released");
+		//video.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("released S"),"s_released");
+		//video.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("released A"),"a_released");
+		//video.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("released D"),"d_released");
 		
-
+		video.getActionMap().put("w_pressed", forward);
+		video.getActionMap().put("s_pressed", backward);
+		video.getActionMap().put("a_pressed", left);
+		video.getActionMap().put("d_pressed", right);
+		//video.getActionMap().put("w_released", halt);
+		//video.getActionMap().put("s_released", halt);
+		//video.getActionMap().put("a_released", halt);
+		//video.getActionMap().put("d_released", halt);
 		
 		//Create the label table
 		Hashtable<Integer, JLabel> labelTable = new Hashtable<Integer, JLabel>();
@@ -118,6 +123,16 @@ public class NinjaGUI extends JFrame implements ActionListener
 		content.setBackground(Color.BLACK);
     	//frame.pack();
     	setVisible(true);
+	}
+	
+	public void setCurrentCom(String pCurrentCom)
+	{
+			command = pCurrentCom;
+	}
+	
+	public String getCurrentCom()
+	{
+			return command;
 	}
 	
 	// Panel to hold the buttons using a BorderLayout
