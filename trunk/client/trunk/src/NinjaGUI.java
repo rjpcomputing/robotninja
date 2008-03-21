@@ -85,7 +85,7 @@ public class NinjaGUI extends JFrame implements ActionListener
 		video.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("S"),"s_pressed");
 		video.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("A"),"a_pressed");
 		video.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("D"),"d_pressed");
-		//video.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("released W"),"w_released");
+		video.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("E"),"e_pressed");
 		//video.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("released S"),"s_released");
 		//video.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("released A"),"a_released");
 		//video.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("released D"),"d_released");
@@ -94,7 +94,7 @@ public class NinjaGUI extends JFrame implements ActionListener
 		video.getActionMap().put("s_pressed", backward);
 		video.getActionMap().put("a_pressed", left);
 		video.getActionMap().put("d_pressed", right);
-		//video.getActionMap().put("w_released", halt);
+		video.getActionMap().put("e_pressed", halt);
 		//video.getActionMap().put("s_released", halt);
 		//video.getActionMap().put("a_released", halt);
 		//video.getActionMap().put("d_released", halt);
