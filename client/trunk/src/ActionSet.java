@@ -6,13 +6,13 @@ class ActionSet extends AbstractAction
 	private EchoClient echo;
 	private JSlider slider;
 	private String temp = "";
-	private NinjaGUI ninja;
+	private NinjaGUI ninja;	private EchoClient client;
 
-    public ActionSet(String pAction, JSlider pSlider, NinjaGUI pNinja) 
+    public ActionSet(String pAction, JSlider pSlider, NinjaGUI pNinja, EchoClient pClient) 
     {
     	  super();
     	  action = pAction;
-    	  //echo = new EchoClient("127.0.0.1", 8080);
+    	  client = pClient; 
     	  slider = pSlider;
     	  ninja = pNinja;
     }
@@ -45,11 +45,11 @@ class ActionSet extends AbstractAction
 			else if (action == "halt")
 			{
 				tcpCommand = "L+000R+000";
-			}
+			}			else if (action == "open")			{				tcpCommand = "O.........";			}			else if (action == "close")			{				tcpCommand = "C.........";			}
 			ninja.setCurrentCom(action);
 			System.out.println(action);
 			System.out.println(tcpCommand);
-		//echo.sendString(action);
+		    client.sendString(tcpCommand);
 		}
     }
 }

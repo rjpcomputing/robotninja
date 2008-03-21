@@ -8,8 +8,6 @@
  */
 
 import java.util.*;
-import java.util.Dictionary;
-import java.util.Hashtable;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.Graphics.*;
@@ -29,6 +27,7 @@ public class NinjaGUI extends JFrame implements ActionListener
 	private Container content;
 	private JPanel panel, temp;
 	public String command;
+	public EchoClient client;
 	
 	// Constructor
 	NinjaGUI() 
@@ -54,7 +53,7 @@ public class NinjaGUI extends JFrame implements ActionListener
     			System.exit(0);
     		}
    	});
-
+    	client = new EchoClient("127.0.0.1", 5432);
 		exit = new JButton("Disconnect");
 		exit.setBounds(500, 10, 100, 25);
 		exit.addActionListener(this);
@@ -75,17 +74,22 @@ public class NinjaGUI extends JFrame implements ActionListener
 		slider.setMajorTickSpacing(25);
 		slider.setPaintTicks(true);
 		
-		ActionSet forward = new ActionSet("forward", slider, this);
-		ActionSet backward = new ActionSet("backward", slider, this);
-		ActionSet left = new ActionSet("left", slider, this);
-		ActionSet right = new ActionSet("right", slider, this);
-		ActionSet halt = new ActionSet("halt", slider, this);		
+		ActionSet forward = new ActionSet("forward", slider, this, client);
+		ActionSet backward = new ActionSet("backward", slider, this, client);
+		ActionSet left = new ActionSet("left", slider, this, client);
+		ActionSet right = new ActionSet("right", slider, this, client);
+		ActionSet halt = new ActionSet("halt", slider, this, client);
+		ActionSet open = new ActionSet("open", slider, this, client);
+		ActionSet close = new ActionSet("close", slider, this, client);
+		
 		
 		video.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("W"),"w_pressed");
 		video.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("S"),"s_pressed");
 		video.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("A"),"a_pressed");
 		video.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("D"),"d_pressed");
 		video.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("E"),"e_pressed");
+		video.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("UP"),"shift_pressed");
+		video.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("DOWN"),"enter_pressed");
 		//video.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("released S"),"s_released");
 		//video.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("released A"),"a_released");
 		//video.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("released D"),"d_released");
@@ -95,6 +99,8 @@ public class NinjaGUI extends JFrame implements ActionListener
 		video.getActionMap().put("a_pressed", left);
 		video.getActionMap().put("d_pressed", right);
 		video.getActionMap().put("e_pressed", halt);
+		video.getActionMap().put("shift_pressed", open);
+		video.getActionMap().put("enter_pressed", close);
 		//video.getActionMap().put("s_released", halt);
 		//video.getActionMap().put("a_released", halt);
 		//video.getActionMap().put("d_released", halt);
@@ -171,7 +177,8 @@ public class NinjaGUI extends JFrame implements ActionListener
 	//  When a button is pressed, send the appropriate command string to the server
 	public void actionPerformed(ActionEvent ae) 
 	{
-
+		String action = ae.getActionCommand();
+		client.sendString(action);
 	}
 	
 	// Main method to call the constructor
