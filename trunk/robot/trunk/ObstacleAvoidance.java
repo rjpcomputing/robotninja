@@ -23,7 +23,7 @@
 
 import lejos.nxt.*;
 
-public class ObstacleAvoidance
+public class ObstacleAvoidance extends Thread
 {
 	private UltrasonicSensor sonic = null;
 	private int distance = 0;
@@ -36,7 +36,7 @@ public class ObstacleAvoidance
 	public ObstacleAvoidance()
 	{
 		sonic = new UltrasonicSensor( SensorPort.S4 );
-		SetObstacleAvoidanceDistance( 30 );
+		SetObstacleAvoidanceDistance( 20 );
 	}
 	
 	/**
@@ -74,7 +74,7 @@ public class ObstacleAvoidance
 	public boolean CheckForObstacle()
 	{
 		//Debug
-		//LCD.drawInt( GetDistance(), 0, 0, 1 );
+		LCD.drawInt( GetDistance(), 0, 0, 3 );
 		
 		if ( GetDistance() < GetObstacleAvoidanceDistance() )
 		{
@@ -82,5 +82,27 @@ public class ObstacleAvoidance
 		}
 		
 		return false;
+	}
+
+	public void run()
+	{
+		boolean isBackingUp = false;
+		while( true )
+		{
+			// Check for obstacle.
+			if ( CheckForObstacle() || isBackingUp )
+			{
+				// Backup to get out of way.
+				NinjaBot.GetNavigation().StartMotors( Direction.BACKWARD, 40 );
+				isBackingUp = true;
+
+				//Check again for an obstacle and if there is not one stop.
+				if ( !CheckForObstacle() )
+				{
+					NinjaBot.GetNavigation().StopAllMotors();
+					isBackingUp = false;
+				}
+			}
+		}
 	}
 }

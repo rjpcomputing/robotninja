@@ -27,9 +27,9 @@
  */
 public class NinjaBot
 {
-	private Navigation nav = null;
-	private ObstacleAvoidance objectAvoid = null;
-	private BTCommunication btComm = null;
+	private static Navigation nav = null;
+	private static ObstacleAvoidance objectAvoid = null;
+	private static BTCommunication btComm = null;
 	
 	public NinjaBot()
 	{
@@ -38,17 +38,17 @@ public class NinjaBot
 		btComm = new BTCommunication();
 	}
 
-	public Navigation GetNavigation()
+	public static Navigation GetNavigation()
 	{
 		return nav;
 	}
 	
-	public ObstacleAvoidance GetObstacleAvoidance()
+	public static ObstacleAvoidance GetObstacleAvoidance()
 	{
 		return objectAvoid;
 	}
 	
-	public BTCommunication GetBTCommunication()
+	public static BTCommunication GetBTCommunication()
 	{
 		return btComm;
 	}
@@ -57,11 +57,13 @@ public class NinjaBot
 	public static void main( String[] args ) throws Exception
 	{
 		NinjaBot app = new NinjaBot();
+		
+		// Start the ObstacleAvoidance thread.
+		app.GetObstacleAvoidance().start();
+		
 		while(true)
 		{
 			app.GetNavigation().Navigate(app.GetBTCommunication().ReadCommand());
 		}
-		//app.GetNavigation().StartMotors( Direction.FORWARD, 100 );
-		//Thread.sleep( 2000 );
 	}
 }
