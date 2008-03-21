@@ -29,6 +29,9 @@ import lejos.nxt.*;
  */
 public class Navigation
 {
+	// Member Variables.
+	private static boolean m_clawIsOpen;
+	
 	/**
 	 * Constructor that turns on regulated speed for the drive motors (B and C). 
 	 */
@@ -49,6 +52,16 @@ public class Navigation
 	 */
 	public void StartMotor( Motor m, Direction d, int power )
 	{
+		m.setPower( power );
+		
+		if ( Direction.FORWARD == d )
+		{
+			m.forward();
+		}
+		else
+		{
+			m.backward();
+		}
 	}
 	
 	/**
@@ -56,6 +69,9 @@ public class Navigation
 	 */
 	public void StopAllMotors()
 	{
+		Motor.A.stop();
+		Motor.B.stop();
+		Motor.C.stop();
 	}
 	
 	/**
@@ -64,6 +80,7 @@ public class Navigation
 	 */
 	public void StopMotor( Motor m )
 	{
+		m.stop();
 	}
 	
 	/**
@@ -106,6 +123,7 @@ public class Navigation
 				// Check if the claw is not opened so it can be opened.
 				if ( !m_clawIsOpen )
 				{
+					cmds[0].GetMotor().setPower( 30 );
 					cmds[0].GetMotor().rotate( 60 );
 					m_clawIsOpen = true;
 				}
@@ -116,6 +134,7 @@ public class Navigation
 				// Check if the claw is open so it can be closed.
 				if ( m_clawIsOpen )
 				{
+					cmds[0].GetMotor().setPower( 25 );
 					cmds[0].GetMotor().rotate( -60 );
 					m_clawIsOpen = false;
 				}
@@ -148,6 +167,4 @@ public class Navigation
 		}
 		
 	}
-
-	private boolean m_clawIsOpen;
 }
