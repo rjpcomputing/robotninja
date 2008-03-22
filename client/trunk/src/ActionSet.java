@@ -21,7 +21,7 @@ class ActionSet extends AbstractAction
     {
 		if(action != ninja.getCurrentCom())
 		{
-		   String speed = "000000";
+		    String speed = "000000";
 			speed = speed + slider.getValue();
 			speed = speed.substring(speed.length() - 3, speed.length());
 			String tcpCommand = "";
@@ -47,8 +47,6 @@ class ActionSet extends AbstractAction
 				tcpCommand = "L+000R+000";
 			}			else if (action == "open")			{				tcpCommand = "O.........";			}			else if (action == "close")			{				tcpCommand = "C.........";			}
 			ninja.setCurrentCom(action);
-			System.out.println(action);
-			System.out.println(tcpCommand);
 		    client.sendString(tcpCommand);
 		}
     }
