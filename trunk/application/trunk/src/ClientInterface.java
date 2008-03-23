@@ -36,7 +36,7 @@ public class ClientInterface
 	{
 		try
 		{
-			servSock = new ServerSocket(8080);
+			servSock = new ServerSocket(5432);
 			socket = servSock.accept();
 		}
 		catch (IOException e)
@@ -56,9 +56,17 @@ public class ClientInterface
 		}
 	}
 	
-    public void run()                       
-    {              
-
+	public String getClientIP()
+	{
+		InetAddress clientIP;
+		clientIP = socket.getInetAddress();
+		System.out.println("Connected to: " + clientIP.getHostAddress());
+		return clientIP.getHostAddress();
+	}
+	
+    public boolean connected()
+    {
+    	return socket.isConnected();
     }
     
     public String receiveCommand()
