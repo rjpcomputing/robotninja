@@ -32,11 +32,11 @@ public class ClientInterface
 	OutputStream out;
 	BufferedReader reader;
 	
-	public ClientInterface()
+	public ClientInterface(String port)
 	{
 		try
 		{
-			servSock = new ServerSocket(5432);
+			servSock = new ServerSocket(Integer.parseInt(port));
 			socket = servSock.accept();
 		}
 		catch (IOException e)

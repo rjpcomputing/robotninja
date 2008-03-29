@@ -68,13 +68,7 @@ public class RobotInterface {
 		dos = new DataOutputStream(os);
 		dis = new DataInputStream(is);
 	}
-	
-    public void run()                       
-    {              
-
-
-    }
-    
+	    
     public void sendCommand(String comm)
     {
     	try

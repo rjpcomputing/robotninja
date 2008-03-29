@@ -37,6 +37,10 @@ import javax.media.control.TrackControl;
 import javax.media.control.QualityControl;
 import javax.media.MediaLocator;
 import java.io.*;
+import javax.media.bean.playerbean.*;
+import javax.media.control.FrameGrabbingControl;
+
+import javax.media.util.*;
 
 public class VideoTransmit {
 
@@ -49,11 +53,21 @@ public class VideoTransmit {
 	private Processor processor = null;
 	private DataSink  rtptransmitter = null;
 	private DataSource dataOutput = null;
+	private MediaPlayer mediaPlayer = null;
+	
+	private DataSource imgDS = null;
 
 	public VideoTransmit(MediaLocator locator, String ipAddress, String port) {
 		this.locator = locator;
 		this.ipAddress = ipAddress;
 		this.port = port;
+
+		mediaPlayer = new MediaPlayer();
+	}
+	
+	public DataSource getClonedDataSource()
+	{
+		return imgDS;
 	}
 
 	/**
@@ -81,6 +95,8 @@ public class VideoTransmit {
 		// Start the transmission
 		processor.start();
 
+		mediaPlayer.setPlayer(processor);
+
 		return null;
 	}
 
@@ -97,6 +113,8 @@ public class VideoTransmit {
 				rtptransmitter = null;
 			}
 		}
+
+
 	}
 
 	private String createProcessor() {
@@ -104,10 +122,12 @@ public class VideoTransmit {
 			return "Locator is null";
 
 		DataSource ds;
-		DataSource clone;
 
 		try {
 			ds = Manager.createDataSource(locator);
+			ds = Manager.createCloneableDataSource(ds);
+			imgDS = ((SourceCloneable)ds).createClone();
+			
 		} catch (Exception e) {
 			return "Couldn't create DataSource";
 		}
