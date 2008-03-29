@@ -75,10 +75,10 @@ public class NinjaGUI extends JFrame implements ActionListener
 		jtxServer.setBounds(350, 30, 150, 25);
 		
 		txtInstructions = new JTextArea("W - Forward\nA - Left\nS - Backward\nD - Right\nE - Stop\nUp - Open Claw\nDown - Close Claw");
-		lblInstructions.setBounds(160, 25, 125, 125);
-		lblInstructions.setForeground(Color.WHITE);
-		lblInstructions.setBackground(Color.BLACK);
-		lblInstructions.setEditable(false);
+		txtInstructions.setBounds(160, 25, 125, 125);
+		txtInstructions.setForeground(Color.WHITE);
+		txtInstructions.setBackground(Color.BLACK);
+		txtInstructions.setEditable(false);
 		
 		lblPort = new JLabel("Port:");
 		lblPort.setBounds(300, 80, 50, 25);
@@ -122,7 +122,7 @@ public class NinjaGUI extends JFrame implements ActionListener
 		content.add(lblServer);
 		content.add(lblPort);
 		content.add(lblVidPort);
-		content.add(lblInstructions);
+		content.add(txtInstructions);
 		content.setBackground(Color.BLACK);
     	setVisible(true);
 	}
@@ -164,8 +164,8 @@ public class NinjaGUI extends JFrame implements ActionListener
 			video.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("A"),"a_pressed");
 			video.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("D"),"d_pressed");
 			video.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("E"),"e_pressed");
-			video.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("UP"),"up_pressed");
-			video.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("DOWN"),"down_pressed");
+			video.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("Y"),"up_pressed");
+			video.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("H"),"down_pressed");
 
 			video.getActionMap().put("w_pressed", forward);
 			video.getActionMap().put("s_pressed", backward);
@@ -200,7 +200,7 @@ public class NinjaGUI extends JFrame implements ActionListener
 			content.remove(lblServer);
 			content.remove(lblPort);
 			content.remove(lblVidPort);
-			content.remove(lblInstructions);
+			content.remove(txtInstructions);
 			content.setBackground(null);
 			update(g);
 			content.add(slider);
@@ -213,7 +213,7 @@ public class NinjaGUI extends JFrame implements ActionListener
 			content.add(lblServer);
 			content.add(lblPort);
 			content.add(lblVidPort);
-			content.add(lblInstructions);
+			content.add(txtInstructions);
 			content.setBackground(Color.BLACK);
 			content.add(player);
 			update(g);
