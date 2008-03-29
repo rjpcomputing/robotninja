@@ -22,22 +22,7 @@
  ******************************************************************************/
 import java.lang.*;
 import javax.media.*;
-import javax.media.bean.playerbean.MediaPlayer;
-//import java.awt.*;
-//import java.awt.Image;
-//import java.awt.image.VolatileImage;
 import java.io.*;
-//import java.awt.Graphics2D;
-//import javax.imageio.*;
-
-import javax.media.*;
-import javax.media.control.*;
-import javax.media.protocol.*;
-import javax.media.util.*;
-import javax.media.format.RGBFormat;
-import javax.media.format.VideoFormat;
-import javax.media.bean.playerbean.*;
-import javax.swing.*;
 
 public class VideoStreaming extends Thread {
 	private boolean readyToStream;
