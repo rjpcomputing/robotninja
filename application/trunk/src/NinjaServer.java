@@ -34,12 +34,18 @@ public class NinjaServer {
 	
 	public static void main(String[] args)
 	{
+		if (args.length != 2)
+		{
+			System.out.println("Usage: java NinjaServer <tcpPort> <rtpPort>");
+			System.exit(1);
+		}
+		
 		RobotInterface robot = null;
 		ClientInterface client = null;
 		VideoStreaming streaming = null;
-		ROBOTON = false;
+		ROBOTON = true;
 		CLIENTON = true;
-
+		
 		if (ROBOTON)
 		{
 			robot = new RobotInterface();
@@ -47,20 +53,17 @@ public class NinjaServer {
 		
 		if (CLIENTON)
 		{
-			client = new ClientInterface();
+			client = new ClientInterface(args[0]);
 		}
 
 		if (client.connected())
 		{
-			//System.out.println("Connected to client.  Attempting to stream...");
-			streaming = new VideoStreaming(client.getClientIP(), "9000");
+			streaming = new VideoStreaming(client.getClientIP(), args[1]);
 		}
 		//ImageDetection detection = new ImageDetection();
 
-		//detection.run();
-		streaming.run();
-		
-		System.out.println("We should be streaming now...");
+		//detection.start();
+		streaming.start();
 		
 		while (true)
 		{
@@ -96,7 +99,9 @@ public class NinjaServer {
 				}
 			}
 		}
-		streaming.stopStreaming();
 		
+		streaming.stopStreaming();
+
+		System.exit(1);
 	}
 }
