@@ -37,10 +37,6 @@ import javax.media.control.TrackControl;
 import javax.media.control.QualityControl;
 import javax.media.MediaLocator;
 import java.io.*;
-import javax.media.bean.playerbean.*;
-import javax.media.control.FrameGrabbingControl;
-
-import javax.media.util.*;
 
 public class VideoTransmit {
 
@@ -53,7 +49,6 @@ public class VideoTransmit {
 	private Processor processor = null;
 	private DataSink  rtptransmitter = null;
 	private DataSource dataOutput = null;
-	private MediaPlayer mediaPlayer = null;
 	
 	private DataSource imgDS = null;
 
@@ -61,8 +56,6 @@ public class VideoTransmit {
 		this.locator = locator;
 		this.ipAddress = ipAddress;
 		this.port = port;
-
-		mediaPlayer = new MediaPlayer();
 	}
 	
 	public DataSource getClonedDataSource()
@@ -94,8 +87,6 @@ public class VideoTransmit {
 
 		// Start the transmission
 		processor.start();
-
-		mediaPlayer.setPlayer(processor);
 
 		return null;
 	}
