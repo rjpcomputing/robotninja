@@ -20,6 +20,7 @@
 * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ******************************************************************************/
+import lejos.nxt.*;
 
 /**
  * Main application entry point.
@@ -32,6 +33,11 @@ public class NinjaBot
 	private static BTCommunication btComm = null;
 	
 	public NinjaBot()
+	{
+		Initialize();
+	}
+
+	public void Initialize()
 	{
 		nav = new Navigation();
 		objectAvoid = new ObstacleAvoidance();
@@ -53,8 +59,8 @@ public class NinjaBot
 		return btComm;
 	}
 	
-	//	 Application entry point.
-	public static void main( String[] args ) throws Exception
+	// Application entry point.
+	public static void main( String[] args )
 	{
 		NinjaBot app = new NinjaBot();
 		
@@ -63,7 +69,21 @@ public class NinjaBot
 		
 		while(true)
 		{
-			app.GetNavigation().Navigate(app.GetBTCommunication().ReadCommand());
+			try
+			{
+				// Navigate using the command sent from the client.
+				app.GetNavigation().Navigate( app.GetBTCommunication().ReadCommand() );
+			}
+			catch( Exception e )
+			{
+				// Display the error messages.
+				LCD.drawString( e.getMessage(), 0, 3, false );
+				LCD.refresh();
+				// Stop all motors.
+				app.GetNavigation().StopAllMotors();
+				// Now we need to reconnect.
+				app.GetBTCommunication().WaitForConnection();
+			}
 		}
 	}
 }
