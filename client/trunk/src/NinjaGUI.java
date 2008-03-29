@@ -21,7 +21,7 @@ import javax.media.bean.playerbean.*;
 public class NinjaGUI extends JFrame implements ActionListener
 {
 	private JButton btnConnect, btnDisconnect;
-	private JTextField jtxServer, jtxPort;
+	private JTextField jtxServer, jtxPort, jtxVidPort;
 	private JSlider slider;
 	private String serverName;
 	private Socket sktToServer;
@@ -30,14 +30,10 @@ public class NinjaGUI extends JFrame implements ActionListener
 	public String command;
 	public EchoClient client;
 	private MediaPlayer player;
-	private ActionSet forward;
-	private ActionSet backward;
-	private ActionSet left;
-	private ActionSet right;
-	private ActionSet halt;
-	private ActionSet open;
-	private ActionSet close;
+	private ActionSet forward, backward, left, right, halt, open, close;
 	private JPanel video;
+	private JTextArea txtInstructions;
+	private JLabel lblServer, lblPort, lblVidPort;
 	
 	// Constructor
 	NinjaGUI() 
@@ -72,35 +68,29 @@ public class NinjaGUI extends JFrame implements ActionListener
 		btnConnect.addActionListener(this);
 		btnConnect.setActionCommand("CONNECTION");
 		
-		JLabel lblServer = new JLabel("Server:");
+		lblServer = new JLabel("Server:");
 		lblServer.setBounds(300, 30, 50, 25);
 		lblServer.setForeground(Color.WHITE);
 		jtxServer = new JTextField();
 		jtxServer.setBounds(350, 30, 150, 25);
 		
-		JTextArea lblInstructions = new JTextArea("W - Forward\nA - Left\nS - Backward\nD - Right\nE - Stop\nUp - Open Claw\nDown - Close Claw");
+		txtInstructions = new JTextArea("W - Forward\nA - Left\nS - Backward\nD - Right\nE - Stop\nUp - Open Claw\nDown - Close Claw");
 		lblInstructions.setBounds(160, 25, 125, 125);
 		lblInstructions.setForeground(Color.WHITE);
 		lblInstructions.setBackground(Color.BLACK);
 		lblInstructions.setEditable(false);
 		
-		JLabel lblPort = new JLabel("Port:");
+		lblPort = new JLabel("Port:");
 		lblPort.setBounds(300, 80, 50, 25);
 		lblPort.setForeground(Color.WHITE);
 		jtxPort = new JTextField();
 		jtxPort.setBounds(350, 80, 150, 25);
-
-		GetVideo media = new GetVideo();
-    	MediaPlayer player = media.videoGUI();
-		player.setBounds(25, 175, 640, 480);
-		//player.start();
-    	//video.setBounds(0, 150, 600, 480);
 		
-		
-		//player = media.videoGUI();
-		//player.setBounds(0, 0, 355, 288);
-		//video.add(player);
-		//player.start();
+		lblVidPort = new JLabel("Video Port:");
+		lblVidPort.setBounds(300, 120, 50, 25);
+		lblVidPort.setForeground(Color.WHITE);
+		jtxVidPort = new JTextField();
+		jtxVidPort.setBounds(350, 120, 150, 25);
 		
 		video = new JPanel();
     	
@@ -108,8 +98,6 @@ public class NinjaGUI extends JFrame implements ActionListener
 		slider.setBounds(75, 25, 50, 125);
 		slider.setMajorTickSpacing(25);
 		slider.setPaintTicks(true);
-		
-
 		
 		//Create the label table
 		Hashtable labelTable = new Hashtable();
@@ -122,26 +110,21 @@ public class NinjaGUI extends JFrame implements ActionListener
 		slider.setLabelTable( labelTable );
 		slider.setPaintLabels(true);
 		
-    	//video.setBorder(BorderFactory.createMatteBorder(5,5,5,5,Color.BLACK));
-    	//JLabel videoTemp = new JLabel("VIDEO GOES HERE");
-		//setContentPane(player);
 		content = getContentPane();
 		content.setLayout(null);
-		content.add(player);
-    	//video.add(videoTemp);
 		content.add(slider);
     	content.add(video);
     	content.add(btnDisconnect);
 		content.add(btnConnect);
 		content.add(jtxServer);
 		content.add(jtxPort);
+		content.add(jtxVidPort);
 		content.add(lblServer);
 		content.add(lblPort);
+		content.add(lblVidPort);
 		content.add(lblInstructions);
 		content.setBackground(Color.BLACK);
-    	//frame.pack();
     	setVisible(true);
-		//player.start();
 	}
 	
 	public void setCurrentCom(String pCurrentCom)
@@ -191,6 +174,49 @@ public class NinjaGUI extends JFrame implements ActionListener
 			video.getActionMap().put("e_pressed", halt);
 			video.getActionMap().put("up_pressed", open);
 			video.getActionMap().put("down_pressed", close);
+			
+			try
+			{
+				Thread.sleep(5000);	
+			}
+			catch(Exception e)
+			{
+				System.out.println(e.toString());
+			}
+			String tempVidPort = jtxVidPort.getText().trim();
+			GetVideo media = new GetVideo(tempServer, tempVidPort);
+	    	MediaPlayer player = media.getGUI();
+			player.setBounds(25, 175, 640, 480);
+			player.start();
+			
+			Graphics g = content.getGraphics();
+			content.remove(slider);
+	    	content.remove(video);
+	    	content.remove(btnDisconnect);
+			content.remove(btnConnect);
+			content.remove(jtxServer);
+			content.remove(jtxPort);
+			content.remove(jtxVidPort);
+			content.remove(lblServer);
+			content.remove(lblPort);
+			content.remove(lblVidPort);
+			content.remove(lblInstructions);
+			content.setBackground(null);
+			update(g);
+			content.add(slider);
+	    	content.add(video);
+	    	content.add(btnDisconnect);
+			content.add(btnConnect);
+			content.add(jtxServer);
+			content.add(jtxPort);
+			content.add(jtxVidPort);
+			content.add(lblServer);
+			content.add(lblPort);
+			content.add(lblVidPort);
+			content.add(lblInstructions);
+			content.setBackground(Color.BLACK);
+			content.add(player);
+			update(g);
 		}
 		System.out.println(action);
 		client.sendString(action);
