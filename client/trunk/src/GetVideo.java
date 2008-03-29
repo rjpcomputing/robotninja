@@ -6,6 +6,7 @@ import javax.media.format.RGBFormat;
 import javax.media.format.VideoFormat;
 import javax.media.bean.playerbean.*;
 import javax.swing.*;
+import java.net.*;
 
 public class GetVideo
 {
@@ -31,8 +32,8 @@ public class GetVideo
        
         try
         {
-            device = CaptureDeviceManager.getDevice("vfw:Microsoft WDM Image Capture (Win32):0");
-            loc = device.getLocator();
+            //device = CaptureDeviceManager.getDevice("vfw:Microsoft WDM Image Capture (Win32):0");
+            loc = new MediaLocator("rtp://239.0.0.1:9000/video");
             data = Manager.createDataSource(loc);
             player = Manager.createPlayer(data);
            // processor = Manager.createProcessor(loc);
@@ -45,7 +46,7 @@ public class GetVideo
            
             //outData = processor.getDataOutput();
            
-            //outLoc = new MediaLocator("rtp://127.0.0.1:2000/video/1");
+           // Loc = new MediaLocator("rtp://127.0.0.1:2000/video/9000");
            // rtptransmitter = Manager.createDataSink(outData, outLoc);
            
             mediaPlayer = new MediaPlayer();
