@@ -46,7 +46,7 @@ class ActionSet extends AbstractAction
 			{
 				tcpCommand = "L+000R+000";
 			}			else if (action == "open")			{				tcpCommand = "O.........";			}			else if (action == "close")			{				tcpCommand = "C.........";			}
-			ninja.setCurrentCom(action);
+			ninja.setCurrentCom(action);			System.out.println(tcpCommand);
 		    client.sendString(tcpCommand);
 		}
     }
