@@ -42,6 +42,11 @@ public class BTCommunication
 	
 	public BTCommunication()
 	{
+		WaitForConnection();
+	}
+
+	public void WaitForConnection()
+	{
 		LCD.drawString( "Waiting...", 0, 0 );
 		LCD.refresh();
 
@@ -49,7 +54,7 @@ public class BTCommunication
 
 		LCD.clear();
 		LCD.drawString("Connected", 0, 0);
-		LCD.refresh();	
+		LCD.refresh();
 	}
 	
 	/**
@@ -57,36 +62,26 @@ public class BTCommunication
 	 * @return A new Command that has the details of the Bluetooth
 	 * 	command set from the server.
 	 */
-	public Command[] ReadCommand()
+	public Command[] ReadCommand() throws IOException
 	{
 		String receivedMessage = "";
-		ObstacleAvoidance objAvoid = new ObstacleAvoidance();
-
-		//00:16:53:04:CE:24
-		try
+		
+		DataInputStream dis = m_btConnection.openDataInputStream();
+		DataOutputStream dos = m_btConnection.openDataOutputStream();
+		
+		for( int i = 0; i < 10; i++ )
 		{
-			DataInputStream dis = m_btConnection.openDataInputStream();
-			DataOutputStream dos = m_btConnection.openDataOutputStream();
-			
-			for( int i = 0; i < 10; i++ )
-			{
-				char c = dis.readChar();
-				receivedMessage += c;
-			}
-
-			// Display received message.
-			LCD.drawString(receivedMessage, 0, 1, false );
-			LCD.refresh();
-
-			// Ack
-			dos.writeBoolean( !objAvoid.CheckForObstacle() );
-			dos.flush();
+			char c = dis.readChar();
+			receivedMessage += c;
 		}
-		catch(IOException ex)
-		{
-			LCD.drawString("fail",0,0);
-			LCD.refresh();
-		}
+
+		// Display received message.
+		LCD.drawString(receivedMessage, 0, 1, false );
+		LCD.refresh();
+
+		// Ack
+		dos.writeBoolean( !NinjaBot.GetObstacleAvoidance().CheckForObstacle() );
+		dos.flush();
 		
 		return ParseCommand( receivedMessage );
 	}
