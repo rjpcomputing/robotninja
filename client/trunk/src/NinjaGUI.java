@@ -16,7 +16,7 @@ public class NinjaGUI extends JFrame implements ActionListener
 	private int serverPort;
 	private GetVideo media;
 	private JButton btnConnect, btnDisconnect;
-	private JLabel lblServer, lblPort, lblVidPort, lblPower, lblScore;
+	private JLabel lblServer, lblPort, lblVidPort, lblPower, lblScore, lblTemp;
 	private JPanel video;
 	private JSlider slider;
 	private JTextArea txtInstructions;
@@ -213,10 +213,10 @@ public class NinjaGUI extends JFrame implements ActionListener
 			video.getActionMap().put("o_pressed", open);
 			video.getActionMap().put("p_pressed", close);
 			
-			JLabel temp = new JLabel("Connecting...");
-			temp.setBounds(25, 625, 200, 25);
-			temp.setForeground(Color.WHITE);
-			updateGUI(temp);
+			lblTemp = new JLabel("Connecting...");
+			lblTemp.setBounds(25, 625, 200, 25);
+			lblTemp.setForeground(Color.WHITE);
+			updateGUI(lblTemp);
 			
 			try
 			{
@@ -236,14 +236,14 @@ public class NinjaGUI extends JFrame implements ActionListener
 			btnConnect.setEnabled(false);
 			
 			Graphics g = content.getGraphics();
-			content.remove(temp);
+			content.remove(lblTemp);
 			content.remove(lblPower);
 			content.remove(slider);
 	    	content.remove(video);
 	    	content.remove(btnDisconnect);
 			content.remove(btnConnect);
 			content.remove(jtxServer);
-			content.remove(jtxPort);
+			content.remove(jtxPort);			
 			content.remove(jtxVidPort);
 			content.remove(lblServer);
 			content.remove(lblPort);
@@ -255,12 +255,12 @@ public class NinjaGUI extends JFrame implements ActionListener
 			content.setBackground(null);
 			update(g);
 			
-			temp = null;
-			temp = new JLabel("Connected!");
-			temp.setBounds(25, 625, 200, 25);
-			temp.setForeground(Color.WHITE);
+			lblTemp = null;
+			lblTemp = new JLabel("Connected!");
+			lblTemp.setBounds(25, 625, 200, 25);
+			lblTemp.setForeground(Color.WHITE);
 		
-			content.add(temp);
+			content.add(lblTemp);
 			content.add(lblPower);
 			content.add(slider);
 	    	content.add(video);
@@ -286,14 +286,8 @@ public class NinjaGUI extends JFrame implements ActionListener
 			client.sendString(action);
 			player.stop();
 			
-			btnDisconnect.setEnabled(false);
-			btnConnect.setEnabled(true);
-			
-			JLabel temp = new JLabel("Disconnected.");
-			temp.setBounds(25, 625, 200, 25);
-			temp.setForeground(Color.WHITE);
-			
 			Graphics g = content.getGraphics();
+			content.remove(lblTemp);
 			content.remove(lblPower);
 			content.remove(slider);
 	    	content.remove(video);
@@ -313,6 +307,13 @@ public class NinjaGUI extends JFrame implements ActionListener
 			content.setBackground(null);
 			update(g);
 			
+			btnDisconnect.setEnabled(false);
+			btnConnect.setEnabled(true);
+			
+			lblTemp = new JLabel("Disconnected.");
+			lblTemp.setBounds(25, 625, 200, 25);
+			lblTemp.setForeground(Color.WHITE);
+			
 			media = null;
 			player = null;
 			forward = null;
@@ -324,7 +325,7 @@ public class NinjaGUI extends JFrame implements ActionListener
 			close = null;
 			client = null;
 			
-			content.add(temp);
+			content.add(lblTemp);
 			content.add(lblPower);
 			content.add(slider);
 	    	content.add(video);
@@ -351,8 +352,8 @@ public class NinjaGUI extends JFrame implements ActionListener
 		Graphics g = content.getGraphics();
 		content.remove(lblPower);
 		content.remove(slider);
-	    content.remove(video);
-	    content.remove(btnDisconnect);
+	   content.remove(video);
+	   content.remove(btnDisconnect);
 		content.remove(btnConnect);
 		content.remove(jtxServer);
 		content.remove(jtxPort);
@@ -370,8 +371,8 @@ public class NinjaGUI extends JFrame implements ActionListener
 		content.add(pLabel);
 		content.add(lblPower);
 		content.add(slider);
-	    content.add(video);
-	    content.add(btnDisconnect);
+	   content.add(video);
+	   content.add(btnDisconnect);
 		content.add(btnConnect);
 		content.add(jtxServer);
 		content.add(jtxPort);
