@@ -34,9 +34,9 @@ public class NinjaServer {
 	
 	public static void main(String[] args)
 	{
-		if (args.length != 2)
+		if (args.length != 3)
 		{
-			System.out.println("Usage: java NinjaServer <tcpPort> <rtpPort>");
+			System.out.println("Usage: java NinjaServer <tcpPort> <rtpPort> <robotmac>");
 			System.exit(1);
 		}
 		
@@ -48,7 +48,7 @@ public class NinjaServer {
 		
 		if (ROBOTON)
 		{
-			robot = new RobotInterface();
+			robot = new RobotInterface(args[2]);
 		}
 		
 		if (CLIENTON)
@@ -101,7 +101,5 @@ public class NinjaServer {
 		}
 		
 		streaming.stopStreaming();
-
-		System.exit(1);
 	}
 }
