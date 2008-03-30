@@ -71,16 +71,31 @@ public class NinjaServer {
 					break;
 				}
 
-				robot.sendCommand(command);
-
-				if (robot.receiveStatus())
+				if (command.length() == 10)
 				{
-					//client.sendAck();
+					robot.sendCommand(command);
+
+					if (robot.receiveStatus())
+					{
+						client.sendAck();
+					}
+					else
+					{
+						client.sendNak();
+					}
+				}
+				else if (command.length() < 10)
+				{
+					if (command.equals("score?"))
+					{
+						//client.sendString(detector.getScore());
+					}
 				}
 				else
 				{
-					//client.sendNak();
+					System.out.println("Invalid command: " + command);
 				}
+
 			}
 			streaming.stopStreaming();
 			client.disconnect();

@@ -31,6 +31,7 @@ public class ClientInterface
 	private InputStream in;
 	private OutputStream out;
 	private BufferedReader reader;
+	private BufferedWriter writer;
 
 	public ClientInterface(String port)
 	{
@@ -49,6 +50,7 @@ public class ClientInterface
 			in = socket.getInputStream();
 			out = socket.getOutputStream();
 			reader = new BufferedReader(new InputStreamReader(in));
+			writer = new BufferedWriter(new OutputStreamWriter(out));
 		}
 		catch (IOException e)
 		{
@@ -85,12 +87,24 @@ public class ClientInterface
 
 		return command;
 	}
+	
+	public void sendString(String a)
+	{
+		try
+		{
+			writer.write(a);
+		}
+		catch (IOException e)
+		{
+			System.out.println("sendString() error" + e.getMessage());
+		}
+	}
 
 	public void sendAck()
 	{
 		try
 		{
-			out.write(1);
+			writer.write("ACK");
 		}
 		catch (IOException e)
 		{
@@ -102,7 +116,7 @@ public class ClientInterface
 	{
 		try
 		{
-			out.write(0);
+			writer.write("NAK");
 		}
 		catch (IOException e)
 		{
