@@ -37,7 +37,7 @@ public class RobotInterface {
 	DataOutputStream dos;
 	DataInputStream dis;
 	
-	public RobotInterface()
+	public RobotInterface(String nxtMAC)
 	{
 		opened = false;
 		
@@ -45,7 +45,7 @@ public class RobotInterface {
 		
 		nxtInfo = new NXTInfo[1];
 			
-		nxtInfo[0] = new NXTInfo("NXT","00:16:53:04:CE:24");
+		nxtInfo[0] = new NXTInfo("NXT", nxtMAC);
 		
 		System.out.println("Connecting to " + nxtInfo[0].btResourceString);
 		
