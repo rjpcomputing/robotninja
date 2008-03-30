@@ -1,11 +1,3 @@
-/* 
- * We just wanted 4 buttons so far? It's not beautiful, but after all I'm just a javva-noob
- * 
- * ToDo:
- * layout and icons
- * TCP/IP-socket
- * maybe use inner classes for actionhandling
- */
 
 import java.util.*;
 import java.awt.*;
