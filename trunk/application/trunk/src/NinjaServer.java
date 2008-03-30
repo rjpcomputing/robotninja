@@ -33,7 +33,7 @@ public class NinjaServer {
 	{
 		if (args.length != 3 && args.length != 4)
 		{
-			System.out.println("Usage: java NinjaServer <tcpPort> <rtpPort> <robotmac>");
+			System.out.println("Usage: java NinjaServer <tcpPort> <rtpPort> <robotmac> (videoConnectionString)");
 			System.exit(1);
 		}
 
@@ -83,9 +83,7 @@ public class NinjaServer {
 				}
 			}
 			streaming.stopStreaming();
-			streaming = null;
-			client = null;
-			System.out.println("Goodbye?");
+			client.disconnect();
 		}
 	}
 }
