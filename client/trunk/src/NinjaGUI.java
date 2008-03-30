@@ -370,7 +370,7 @@ public class NinjaGUI extends JFrame implements ActionListener
 		content.add(slider);
 	   content.add(video);
 	   content.add(btnDisconnect);
-		ontent.add(btnConnect);
+		content.add(btnConnect);
 		content.add(jtxServer);
 		content.add(jtxPort);
 		content.add(jtxVidPort);
