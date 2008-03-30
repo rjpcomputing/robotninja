@@ -32,6 +32,7 @@ public class VideoStreaming extends Thread {
 	private String port;
 	//private ImageDetection detection;
 	private Player player;
+	private String videoConnectionString;
 
 	public VideoStreaming(String pIPAddress, String pPort)
 	{
@@ -39,12 +40,22 @@ public class VideoStreaming extends Thread {
 		ipAddress = pIPAddress;
 		port = pPort;
 		//detection = null;
+		videoConnectionString = "vfw:Microsoft WDM Image Capture (Win32):0";
 	}
-
+	
+	public VideoStreaming(String pIPAddress, String pPort, String pVideoConnectionString)
+	{
+		readyToStream = false;
+		ipAddress = pIPAddress;
+		port = pPort;
+		// detection = null;
+		videoConnectionString = pVideoConnectionString;
+	}
+	
 	public void run()                       
 	{
 		String errors;
-		vt = new VideoTransmit(new MediaLocator("vfw:Microsoft WDM Image Capture (Win32):0"), ipAddress, port);
+		vt = new VideoTransmit(new MediaLocator(videoConnectionString), ipAddress, port);
 		readyToStream = true;
 
 		errors = vt.start();
