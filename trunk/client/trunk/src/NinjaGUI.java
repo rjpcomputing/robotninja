@@ -359,7 +359,6 @@ public class NinjaGUI extends JFrame implements ActionListener
 		content.remove(lblPort);
 		content.remove(lblVidPort);
 		content.remove(txtInstructions);
-		content.remove(player);
 		content.remove(lblScore);
 		content.remove(jtxTeamOne);
 		content.remove(jtxTeamTwo);
@@ -378,7 +377,6 @@ public class NinjaGUI extends JFrame implements ActionListener
 		content.add(lblPort);
 		content.add(lblVidPort);
 		content.add(txtInstructions);
-		content.add(player);
 		content.add(lblScore);
 		content.add(jtxTeamOne);
 		content.add(jtxTeamTwo);
