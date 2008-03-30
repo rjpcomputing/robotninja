@@ -1,4 +1,3 @@
-
 import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -146,7 +145,7 @@ public class NinjaGUI extends JFrame implements ActionListener
 		
 		content = getContentPane();
 		content.setLayout(null);
-		
+
 		content.add(video);
 		content.add(lblPower);
 		content.add(slider);
@@ -176,7 +175,6 @@ public class NinjaGUI extends JFrame implements ActionListener
 			return command;
 	}
 
-
 	//  When a button is pressed, send the appropriate command string to the server
 	public void actionPerformed(ActionEvent ae) 
 	{
@@ -189,6 +187,7 @@ public class NinjaGUI extends JFrame implements ActionListener
 			System.out.println(tempServer);
 			System.out.println(portNum);
 			client = new EchoClient(tempServer, portNum);
+			client.sendString(action);
 			
 			forward = new ActionSet("forward", slider, this, client);
 			backward = new ActionSet("backward", slider, this, client);
@@ -215,10 +214,9 @@ public class NinjaGUI extends JFrame implements ActionListener
 			video.getActionMap().put("p_pressed", close);
 			
 			JLabel temp = new JLabel("Connecting...");
-			temp.setBounds(25, 670, 200, 25);
+			temp.setBounds(25, 625, 200, 25);
 			temp.setForeground(Color.WHITE);
-			content.add(temp);
-			updateGUI();
+			updateGUI(temp);
 			
 			try
 			{
@@ -259,7 +257,7 @@ public class NinjaGUI extends JFrame implements ActionListener
 			
 			temp = null;
 			temp = new JLabel("Connected!");
-			temp.setBounds(25, 670, 200, 25);
+			temp.setBounds(25, 625, 200, 25);
 			temp.setForeground(Color.WHITE);
 		
 			content.add(temp);
@@ -285,13 +283,14 @@ public class NinjaGUI extends JFrame implements ActionListener
 		//System.out.println(action);
 		if(action == "X.........")
 		{
+			client.sendString(action);
 			player.stop();
 			
 			btnDisconnect.setEnabled(false);
 			btnConnect.setEnabled(true);
 			
 			JLabel temp = new JLabel("Disconnected.");
-			temp.setBounds(25, 670, 200, 25);
+			temp.setBounds(25, 625, 200, 25);
 			temp.setForeground(Color.WHITE);
 			
 			Graphics g = content.getGraphics();
@@ -316,7 +315,6 @@ public class NinjaGUI extends JFrame implements ActionListener
 			
 			media = null;
 			player = null;
-			client = null;
 			forward = null;
 			backward = null;
 			left = null;
@@ -324,6 +322,7 @@ public class NinjaGUI extends JFrame implements ActionListener
 			halt = null;
 			open = null;
 			close = null;
+			client = null;
 			
 			content.add(temp);
 			content.add(lblPower);
@@ -344,16 +343,16 @@ public class NinjaGUI extends JFrame implements ActionListener
 			content.setBackground(Color.BLACK);
 			update(g);
 		}
-		client.sendString(action);
+		
 	}
 	
-	public void updateGUI()
+	public void updateGUI(JLabel pLabel)
 	{
 		Graphics g = content.getGraphics();
 		content.remove(lblPower);
 		content.remove(slider);
-	   content.remove(video);
-	   content.remove(btnDisconnect);
+	    content.remove(video);
+	    content.remove(btnDisconnect);
 		content.remove(btnConnect);
 		content.remove(jtxServer);
 		content.remove(jtxPort);
@@ -367,11 +366,12 @@ public class NinjaGUI extends JFrame implements ActionListener
 		content.remove(jtxTeamTwo);
 		content.setBackground(null);
 		update(g);
-		
+
+		content.add(pLabel);
 		content.add(lblPower);
 		content.add(slider);
-	   content.add(video);
-	   content.add(btnDisconnect);
+	    content.add(video);
+	    content.add(btnDisconnect);
 		content.add(btnConnect);
 		content.add(jtxServer);
 		content.add(jtxPort);
