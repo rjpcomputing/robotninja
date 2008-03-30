@@ -24,28 +24,21 @@ public class GetVideo
     	strPort = pPort;
     }
    
-    public MediaPlayer getGUI()
+    public MediaPlayer getGUI() throws Exception
     {
-        try
-        {
-            //device = CaptureDeviceManager.getDevice("vfw:Microsoft WDM Image Capture (Win32):0");
-            loc = new MediaLocator("rtp://" + strIP + ":" + strPort + "/video");
-            data = Manager.createDataSource(loc);
-            player = Manager.createPlayer(data);
+        //device = CaptureDeviceManager.getDevice("vfw:Microsoft WDM Image Capture (Win32):0");
+        loc = new MediaLocator("rtp://" + strIP + ":" + strPort + "/video");
+        data = Manager.createDataSource(loc);
+        player = Manager.createPlayer(data);
            
-            mediaPlayer = new MediaPlayer();
-            mediaPlayer.setPlayer(player);
-			return mediaPlayer;
-        }
-        catch (Exception e)
-        {
-            System.out.println(e.toString());
-        }
-		  return new MediaPlayer();
+        mediaPlayer = new MediaPlayer();
+        mediaPlayer.setPlayer(player);
+		return mediaPlayer;
     }
 
-    public void closeConnection()
+    public void closeConnection() throws Exception
     {
+    	data.stop();
 		data.disconnect();
 		mediaPlayer = null;
 		player = null;
@@ -53,4 +46,3 @@ public class GetVideo
 		loc = null;
 	}
 }
-
