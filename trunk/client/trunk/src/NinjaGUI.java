@@ -226,11 +226,19 @@ public class NinjaGUI extends JFrame implements ActionListener
 			}
 			catch(Exception e)
 			{
-				System.out.println(e.toString());
+				updateGUI(e.toString(), null);
+//				System.out.println(e.toString());
 			}
 			String tempVidPort = jtxVidPort.getText().trim();
 			media = new GetVideo(tempServer, tempVidPort);
-	    	player = media.getGUI();
+			try
+			{
+	    		player = media.getGUI();
+	    	}
+	    	catch(Exception e)
+	    	{
+				updateGUI(e.toString(), null);
+			}
 			player.setBounds(25, 150, 640, 480);
 			player.start();
 			
@@ -238,6 +246,9 @@ public class NinjaGUI extends JFrame implements ActionListener
 			btnConnect.setEnabled(false);
 			
 			updateGUI("Connected!", player);
+
+		//	DefaultFocusManager focus = new DefaultFocusManager();
+			//focus.getLastComponent();
 		}
 		
 		if(action == "X.........")
@@ -248,8 +259,15 @@ public class NinjaGUI extends JFrame implements ActionListener
 			btnDisconnect.setEnabled(false);
 			btnConnect.setEnabled(true);
 
-			media.closeConnection();
-			
+			try
+			{
+				media.closeConnection();
+			}
+			catch(Exception e)
+			{
+				updateGUI(e.toString(), null);
+			}
+		
 			updateGUI("Disconnected.", null);
 			
 			media = null;
@@ -293,7 +311,7 @@ public class NinjaGUI extends JFrame implements ActionListener
 
 		lblTemp = null;
 		lblTemp = new JLabel(pMessage);
-		lblTemp.setBounds(25, 615, 200, 25);
+		lblTemp.setBounds(25, 625, 200, 25);
 		lblTemp.setForeground(Color.WHITE);
 
 		content.add(lblTemp);
