@@ -21,10 +21,7 @@
 * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ******************************************************************************/
 import java.lang.*;
-import javax.bluetooth.*;
-import javax.microedition.io.*;
 import java.io.*;
-
 import lejos.pc.comm.*;
 
 public class RobotInterface {
