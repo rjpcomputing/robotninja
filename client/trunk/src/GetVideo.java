@@ -12,6 +12,11 @@ public class GetVideo
 {
 	private String strIP;
 	private String strPort;
+	private CaptureDeviceInfo device;
+    private MediaLocator loc;
+    private DataSource data = null;
+    private MediaPlayer mediaPlayer;
+    private Player player;
 	
 	 public GetVideo(String pIP, String pPort)
     {
@@ -21,12 +26,6 @@ public class GetVideo
    
     public MediaPlayer getGUI()
     {
-        CaptureDeviceInfo device;
-        MediaLocator loc;
-        DataSource data;
-        MediaPlayer mediaPlayer;
-        Player player;
-       
         try
         {
             //device = CaptureDeviceManager.getDevice("vfw:Microsoft WDM Image Capture (Win32):0");
@@ -36,8 +35,7 @@ public class GetVideo
            
             mediaPlayer = new MediaPlayer();
             mediaPlayer.setPlayer(player);
-				player.start();
-				return mediaPlayer;
+			return mediaPlayer;
         }
         catch (Exception e)
         {
@@ -45,5 +43,14 @@ public class GetVideo
         }
 		  return new MediaPlayer();
     }
+
+    public void closeConnection()
+    {
+		data.disconnect();
+		mediaPlayer = null;
+		player = null;
+		data = null;
+		loc = null;
+	}
 }
 
