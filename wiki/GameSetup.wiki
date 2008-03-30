@@ -1,4 +1,5 @@
 #summary A document that outlines the setup and objective of the Ninja Robot game.
+#labels Featured
 
 = Game Setup =
 
