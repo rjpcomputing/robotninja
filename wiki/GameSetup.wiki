@@ -1,3 +1,5 @@
+#summary A document that outlines the setup and objective of the Ninja Robot game.
+
 = Game Setup =
 
  * Camera:  6 feet above the ground, mounted on a flat wall, pointing down to the floor.  Make sure there are as few obstructions as possible in the camera's view range.
