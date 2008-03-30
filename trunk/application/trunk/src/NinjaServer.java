@@ -53,7 +53,7 @@ public class NinjaServer {
 			}
 			else if (client.connected() && args.length == 4)
 			{
-				streaming = new VideoStreaming(client.getClientIP(), args[3]);
+				streaming = new VideoStreaming(client.getClientIP(), args[1], args[3]);
 			}
 			//ImageDetection detection = new ImageDetection();
 
