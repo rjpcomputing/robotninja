@@ -216,6 +216,7 @@ public class NinjaGUI extends JFrame implements ActionListener
 			
 			JLabel temp = new JLabel("Connecting...");
 			temp.setBounds(25, 670, 200, 25);
+			temp.setForeground(Color.WHITE);
 			content.add(temp);
 			updateGUI();
 			
@@ -259,6 +260,7 @@ public class NinjaGUI extends JFrame implements ActionListener
 			temp = null;
 			temp = new JLabel("Connected!");
 			temp.setBounds(25, 670, 200, 25);
+			temp.setForeground(Color.WHITE);
 		
 			content.add(temp);
 			content.add(lblPower);
@@ -290,6 +292,7 @@ public class NinjaGUI extends JFrame implements ActionListener
 			
 			JLabel temp = new JLabel("Disconnected.");
 			temp.setBounds(25, 670, 200, 25);
+			temp.setForeground(Color.WHITE);
 			
 			Graphics g = content.getGraphics();
 			content.remove(lblPower);
