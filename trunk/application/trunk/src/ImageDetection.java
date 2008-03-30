@@ -45,6 +45,7 @@ public class ImageDetection extends Thread {
 	private CartesianCoordinates goal;
 	private CartesianCoordinates[] balls;
 	private boolean timeToStop;
+	private int score;
 	
 	public ImageDetection(Player pPlayer)
 	{
@@ -52,6 +53,7 @@ public class ImageDetection extends Thread {
 		goal = null;
 		balls = new CartesianCoordinates[2];
 		timeToStop = false;
+		score = 0;
 	}
 	
     public void run()                       
@@ -123,6 +125,11 @@ public class ImageDetection extends Thread {
 				//System.out.println("Crap.");
 			}
 		}
+    }
+    
+    public int getScore()
+    {
+    	return score;
     }
     
 	public void stopRunning()
