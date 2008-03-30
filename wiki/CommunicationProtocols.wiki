@@ -21,7 +21,9 @@ The purpose of these standards is to keep all aspects of the program on the same
 
   == Client-Server Communication ==
    * Client sends commands to server.
-   * These commands are to strictly adhere to the following format:
+   * Client to server only commands are to be of length less than 10 characters.
+   An example of a client to server only command it the `score?` command. This command asks the server to give the current score. As you can see the command is only six characters long.
+   * Client to designated to controlling the robot must strictly adhere to the following format:
    `L[+|-]###R[+|-]###`
 
    Some examples of this regular expression in action are presented below. Remember, when you are looking at the robot from behind (sensor “eyes” pointing away from you), the left wheel is “L” and the right wheel is “R”. L+100 indicates rotating the left wheel forward at 100% speed. R-075 indicates rotating the right wheel backward at 75% speed. Here are some more examples:
