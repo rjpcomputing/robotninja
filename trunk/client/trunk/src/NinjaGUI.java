@@ -214,6 +214,11 @@ public class NinjaGUI extends JFrame implements ActionListener
 			video.getActionMap().put("o_pressed", open);
 			video.getActionMap().put("p_pressed", close);
 			
+			JLabel temp = new JLabel("Connecting...");
+			temp.setBounds(25, 670, 200, 25);
+			content.add(temp);
+			updateGUI();
+			
 			try
 			{
 				Thread.sleep(5000);	
@@ -232,6 +237,7 @@ public class NinjaGUI extends JFrame implements ActionListener
 			btnConnect.setEnabled(false);
 			
 			Graphics g = content.getGraphics();
+			content.remove(temp);
 			content.remove(lblPower);
 			content.remove(slider);
 	    	content.remove(video);
@@ -249,7 +255,12 @@ public class NinjaGUI extends JFrame implements ActionListener
 			content.remove(jtxTeamTwo);
 			content.setBackground(null);
 			update(g);
-
+			
+			temp = null;
+			temp = new JLabel("Connected!");
+			temp.setBounds(25, 670, 200, 25);
+		
+			content.add(temp);
 			content.add(lblPower);
 			content.add(slider);
 	    	content.add(video);
@@ -273,19 +284,12 @@ public class NinjaGUI extends JFrame implements ActionListener
 		if(action == "X.........")
 		{
 			player.stop();
-			media = null;
-			player = null;
-			client = null;
-			forward = null;
-			backward = null;
-			left = null;
-			right = null;
-			halt = null;
-			open = null;
-			close = null;
 			
 			btnDisconnect.setEnabled(false);
 			btnConnect.setEnabled(true);
+			
+			JLabel temp = new JLabel("Disconnected.");
+			temp.setBounds(25, 670, 200, 25);
 			
 			Graphics g = content.getGraphics();
 			content.remove(lblPower);
@@ -306,7 +310,19 @@ public class NinjaGUI extends JFrame implements ActionListener
 			content.remove(jtxTeamTwo);
 			content.setBackground(null);
 			update(g);
-
+			
+			media = null;
+			player = null;
+			client = null;
+			forward = null;
+			backward = null;
+			left = null;
+			right = null;
+			halt = null;
+			open = null;
+			close = null;
+			
+			content.add(temp);
 			content.add(lblPower);
 			content.add(slider);
 	    	content.add(video);
@@ -328,6 +344,47 @@ public class NinjaGUI extends JFrame implements ActionListener
 		client.sendString(action);
 	}
 	
+	public void updateGUI()
+	{
+		Graphics g = content.getGraphics();
+		content.remove(lblPower);
+		content.remove(slider);
+	   content.remove(video);
+	   content.remove(btnDisconnect);
+		content.remove(btnConnect);
+		content.remove(jtxServer);
+		content.remove(jtxPort);
+		content.remove(jtxVidPort);
+		content.remove(lblServer);
+		content.remove(lblPort);
+		content.remove(lblVidPort);
+		content.remove(txtInstructions);
+		content.remove(player);
+		content.remove(lblScore);
+		content.remove(jtxTeamOne);
+		content.remove(jtxTeamTwo);
+		content.setBackground(null);
+		update(g);
+		
+		content.add(lblPower);
+		content.add(slider);
+	   content.add(video);
+	   content.add(btnDisconnect);
+		ontent.add(btnConnect);
+		content.add(jtxServer);
+		content.add(jtxPort);
+		content.add(jtxVidPort);
+		content.add(lblServer);
+		content.add(lblPort);
+		content.add(lblVidPort);
+		content.add(txtInstructions);
+		content.add(player);
+		content.add(lblScore);
+		content.add(jtxTeamOne);
+		content.add(jtxTeamTwo);
+		content.setBackground(Color.BLACK);
+		update(g);
+	}
 	// Main method to call the constructor
 	public static void main(String[] args)
 	{
