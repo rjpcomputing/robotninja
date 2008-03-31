@@ -24,11 +24,6 @@
 
 public class NinjaServer {
 
-	public NinjaServer()
-	{
-
-	}
-
 	public static void main(String[] args)
 	{
 		if (args.length != 3 && args.length != 4)
@@ -40,6 +35,7 @@ public class NinjaServer {
 		RobotInterface robot = null;
 		ClientInterface client = null;
 		VideoStreaming streaming = null;
+		ImageDetection detection = null;
 
 		robot = new RobotInterface(args[2]);
 
@@ -49,15 +45,13 @@ public class NinjaServer {
 
 			if (client.connected() && args.length == 3)
 			{
-				streaming = new VideoStreaming(client.getClientIP(), args[1]);
+				streaming = new VideoStreaming(client.getClientIP(), args[1], detection);
 			}
 			else if (client.connected() && args.length == 4)
 			{
-				streaming = new VideoStreaming(client.getClientIP(), args[1], args[3]);
+				streaming = new VideoStreaming(client.getClientIP(), args[1], args[3], detection);
 			}
-			//ImageDetection detection = new ImageDetection();
 
-			//detection.start();
 			streaming.start();
 
 			while (true)

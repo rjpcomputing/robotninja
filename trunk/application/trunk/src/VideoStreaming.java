@@ -30,26 +30,28 @@ public class VideoStreaming extends Thread {
 	private VideoTransmit vt;
 	private String ipAddress;
 	private String port;
-	//private ImageDetection detection;
+	private ImageDetection detection;
 	private Player player;
 	private String videoConnectionString;
 
-	public VideoStreaming(String pIPAddress, String pPort)
+	public VideoStreaming(String pIPAddress, String pPort, ImageDetection pImageDetection)
 	{
 		readyToStream = false;
 		ipAddress = pIPAddress;
 		port = pPort;
-		//detection = null;
+		detection = pImageDetection;
 		videoConnectionString = "vfw:Microsoft WDM Image Capture (Win32):0";
+		detection = new ImageDetection();
 	}
 	
-	public VideoStreaming(String pIPAddress, String pPort, String pVideoConnectionString)
+	public VideoStreaming(String pIPAddress, String pPort, String pVideoConnectionString, ImageDetection pImageDetection)
 	{
 		readyToStream = false;
 		ipAddress = pIPAddress;
 		port = pPort;
-		// detection = null;
+		detection = pImageDetection;
 		videoConnectionString = pVideoConnectionString;
+		detection = new ImageDetection();
 	}
 	
 	public void run()                       
@@ -69,8 +71,9 @@ public class VideoStreaming extends Thread {
 		try
 		{
 			player = Manager.createPlayer(vt.getClonedDataSource());
-			//detection = new ImageDetection(player);
-			//detection.start();
+			player.start();
+			detection.setPlayer(player);
+			detection.start();
 		}
 		catch (Exception e)
 		{
@@ -97,10 +100,10 @@ public class VideoStreaming extends Thread {
 
 	public void stopStreaming()
 	{
-		//if (detection != null)
-		//{
-		//	detection.stopRunning();
-		//}
+		if (detection != null)
+		{
+			detection.stopRunning();
+		}
 		readyToStream = false;
 	}
 }

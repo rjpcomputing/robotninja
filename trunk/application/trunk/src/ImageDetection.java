@@ -37,7 +37,6 @@ import javax.imageio.*;
 import java.awt.*;
 
 public class ImageDetection extends Thread {
-	private CannyEdgeDetector edgeDetector;
 	private CircleDetection goalDetector;
 	private CircleDetection ballDetector;
 	private FrameGrabbingControl frameGrabber;
@@ -47,13 +46,18 @@ public class ImageDetection extends Thread {
 	private boolean timeToStop;
 	private int score;
 	
-	public ImageDetection(Player pPlayer)
+	public ImageDetection()
 	{
-		player = pPlayer;
+		player = null;
 		goal = null;
 		balls = new CartesianCoordinates[2];
 		timeToStop = false;
 		score = 0;
+	}
+	
+	public void setPlayer(Player pPlayer)
+	{
+		player = pPlayer;
 	}
 	
     public void run()                       
@@ -64,16 +68,11 @@ public class ImageDetection extends Thread {
 			Thread.currentThread().sleep(5000);
 		} 
 		catch (InterruptedException ie) { }
-    	player.start();
-    	
-    	frameGrabber = (FrameGrabbingControl)player.getControl("javax.media.control.FrameGrabbingControl");
-    	
+    	    	
 		while(true)
 		{
 			Buffer buf;
-			BufferedImage buffImg;
 			Image img = null;
-			BufferedImage edges;
 			
 			try 
 			{
@@ -89,42 +88,66 @@ public class ImageDetection extends Thread {
 			try
 			{
 				// pull in the image
+				CannyEdgeDetector detector = new CannyEdgeDetector();
+				BufferedImage edges;
+				FrameGrabbingControl frameGrabber = (FrameGrabbingControl)player.getControl("javax.media.control.FrameGrabbingControl");
 				buf = frameGrabber.grabFrame();
+				
 				img = (new BufferToImage((VideoFormat)buf.getFormat()).createImage(buf));
-				buffImg = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_RGB);
-				//Graphics2D g = buffImg.createGraphics();
-				//g.drawImage(img, null, null);
-				
-				System.out.println("Image pulled in!");
-				
+				BufferedImage buffImg = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_RGB);
+				Graphics2D g = buffImg.createGraphics();
+				g.drawImage(img, null, null);
+								
 				// use the canny detection algorithm
-				edgeDetector.setSourceImage(buffImg);
-				edgeDetector.process();
-				edges = edgeDetector.getEdgesImage();
-				
-				System.out.println("Used canny detection algorithm!");
+				detector.setSourceImage(buffImg);
+				detector.process();
+				edges = detector.getEdgesImage();
 				
 				// figure out the location of the goal
 				goalDetector = new CircleDetection(edges, 20, 45, 1);
 				goal = goalDetector.getAllCoords().get(0);
-				System.out.println("Goal Location: (" + goal.getX() + ","+ goal.getY() + ")");
-				
-				System.out.println("Got goal location!");
 				
 				// figure out the location of the balls
-				ballDetector = new CircleDetection(edges, 4, 8, 2);
+				ballDetector = new CircleDetection(edges, 4, 6, 2);
 				balls[0] = ballDetector.getAllCoords().get(0);
 				balls[1] = ballDetector.getAllCoords().get(1);
-				System.out.println("Ball 1 Location: (" + balls[0].getX() + ","+ balls[0].getY() + ")");
-				System.out.println("Ball 2 Location: (" + balls[1].getX() + ","+ balls[1].getY() + ")");
 				
-				System.out.println("It worked!");
+				score = 0;
+				
+				if (withinRange(getDistance(goal, balls[0]), goal.getR()))
+				{
+					score++;
+				}
+				
+				if (withinRange(getDistance(goal, balls[1]), goal.getR()))
+				{
+					score++;
+				}
+				
+				System.out.println("Score: " + score);
 			}
 			catch (Exception e)
 			{  
-				//System.out.println("Crap.");
+				System.out.println("Image Detection Error: " + e.getMessage());
 			}
 		}
+    }
+    
+    private double getDistance(CartesianCoordinates c1, CartesianCoordinates c2)
+    {
+    	return Math.sqrt(Math.pow(Math.abs(c1.getX() - c2.getX()), 2) + Math.pow(Math.abs(c1.getY() - c2.getY()), 2));
+    }
+    
+    private boolean withinRange(double distance, int radius)
+    {
+    	if (distance > radius)
+    	{
+    		return false;
+    	}
+    	else
+    	{
+    		return true;
+    	}
     }
     
     public int getScore()
