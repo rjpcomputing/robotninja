@@ -45,14 +45,19 @@ public class NinjaGUI extends JFrame implements ActionListener
     	{
     		public void windowClosing(WindowEvent e) 
     		{
-				if(client != null)
+				if(client.isClosed() == false)
 				{
-					client.sendString("X.........");
+					try
+					{
+						client.sendString("X.........");
+					}
+					catch(Exception ex)
+					{
+						System.out.println(ex.toString());
+					}
 				}
-				if(player != null)
-				{
-					player.stop();
-				}
+				player.stop();
+				player.close();
     			System.exit(0);
     		}
 		});
@@ -189,11 +194,17 @@ public class NinjaGUI extends JFrame implements ActionListener
 			String tempServer = jtxServer.getText().trim();
 			String tempPort = jtxPort.getText().trim();
 			int portNum = Integer.parseInt(tempPort);
-			System.out.println(tempServer);
-			System.out.println(portNum);
 			client = new EchoClient(tempServer, portNum);
-			client.sendString(action);
-			
+			try
+			{
+				client.sendString(action);
+			}
+			catch(Exception e)
+			{
+				updateGUI(e.toString(), null);
+			}
+
+			// set actions for key depresses
 			forward = new ActionSet("forward", slider, this, client);
 			backward = new ActionSet("backward", slider, this, client);
 			left = new ActionSet("left", slider, this, client);
@@ -201,7 +212,8 @@ public class NinjaGUI extends JFrame implements ActionListener
 			halt = new ActionSet("halt", slider, this, client);
 			open = new ActionSet("open", slider, this, client);
 			close = new ActionSet("close", slider, this, client);
-			
+
+			// maps the action map to keyboard input
 			video.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("W"),"w_pressed");
 			video.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("S"),"s_pressed");
 			video.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("A"),"a_pressed");
@@ -210,6 +222,7 @@ public class NinjaGUI extends JFrame implements ActionListener
 			video.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("O"),"o_pressed");
 			video.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("P"),"p_pressed");
 
+			// maps actions to keyboard input
 			video.getActionMap().put("w_pressed", forward);
 			video.getActionMap().put("s_pressed", backward);
 			video.getActionMap().put("a_pressed", left);
@@ -220,58 +233,55 @@ public class NinjaGUI extends JFrame implements ActionListener
 
 			updateGUI("Connecting...", null);
 			
-			try
-			{
-				Thread.sleep(5000);	
-			}
-			catch(Exception e)
-			{
-				updateGUI(e.toString(), null);
-//				System.out.println(e.toString());
-			}
 			String tempVidPort = jtxVidPort.getText().trim();
+
+			if(player != null)
+			{
+				content.remove(player);
+			}
 			media = new GetVideo(tempServer, tempVidPort);
 			try
 			{
 	    		player = media.getGUI();
 	    	}
 	    	catch(Exception e)
-	    	{
+    		{
 				updateGUI(e.toString(), null);
 			}
-			player.setBounds(25, 150, 640, 480);
+			player.setBounds(25, 150, 640, 480);			
 			player.start();
+			content.add(player);
+			Graphics g = getGraphics();
+			update(g);
 			
 			btnDisconnect.setEnabled(true);
 			btnConnect.setEnabled(false);
 			
 			updateGUI("Connected!", player);
 
-		//	DefaultFocusManager focus = new DefaultFocusManager();
-			//focus.getLastComponent();
+			slider.requestFocus();
 		}
 		
 		if(action == "X.........")
 		{
-			client.sendString(action);
-			player.stop();
-			
-			btnDisconnect.setEnabled(false);
-			btnConnect.setEnabled(true);
-
 			try
 			{
-				media.closeConnection();
+				client.sendString(action);
 			}
 			catch(Exception e)
 			{
 				updateGUI(e.toString(), null);
 			}
+			player.stop();
+			player.close();
+			
+			btnDisconnect.setEnabled(false);
+			btnConnect.setEnabled(true);
 		
 			updateGUI("Disconnected.", null);
-			
-			media = null;
-			player = null;
+
+			video.getActionMap().clear();
+			video.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).clear();
 			forward = null;
 			backward = null;
 			left = null;
@@ -279,7 +289,14 @@ public class NinjaGUI extends JFrame implements ActionListener
 			halt = null;
 			open = null;
 			close = null;
-			client = null;
+			try
+			{
+				client.close();
+			}
+			catch(Exception e)
+			{
+				updateGUI(e.toString(), null);
+			}
 		}
 	}
 	
@@ -303,15 +320,15 @@ public class NinjaGUI extends JFrame implements ActionListener
 		content.remove(jtxTeamOne);
 		content.remove(jtxTeamTwo);
 		content.setBackground(null);
-		if(pPlayer != null)
+		/*if(pPlayer != null)
 		{
 			content.remove(pPlayer);
-		}
+		}*/
 		update(g);
 
 		lblTemp = null;
 		lblTemp = new JLabel(pMessage);
-		lblTemp.setBounds(25, 625, 200, 25);
+		lblTemp.setBounds(25, 625, 600, 25);
 		lblTemp.setForeground(Color.WHITE);
 
 		content.add(lblTemp);
@@ -331,10 +348,10 @@ public class NinjaGUI extends JFrame implements ActionListener
 		content.add(jtxTeamOne);
 		content.add(jtxTeamTwo);
 		content.setBackground(Color.BLACK);
-		if(pPlayer != null)
+		/*if(pPlayer != null)
 		{
 			content.add(pPlayer);
-		}
+		} */
 		update(g);
 	}
 	

@@ -35,14 +35,4 @@ public class GetVideo
         mediaPlayer.setPlayer(player);
 		return mediaPlayer;
     }
-
-    public void closeConnection() throws Exception
-    {
-    	data.stop();
-		data.disconnect();
-		mediaPlayer = null;
-		player = null;
-		data = null;
-		loc = null;
-	}
 }
