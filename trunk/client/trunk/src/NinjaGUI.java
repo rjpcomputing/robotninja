@@ -82,7 +82,7 @@ public class NinjaGUI extends JFrame implements ActionListener
 		slider.setLabelTable( labelTable );
 		slider.setPaintLabels(true);
 		
-		txtInstructions = new JTextArea("W - Forward\nA - Left\nS - Backward\nD - Right\nE - Stop\nO - Open Claw\nP - Close Claw");
+		txtInstructions = new JTextArea("W - Forward\nA - Left\nS - Backward\nD - Right\nE - Stop\nO - Open Claw\nP - Close Claw\nUp - Increase Power\nDown - Decrease Power");
 		txtInstructions.setBounds(137, 5, 100, 125);
 		txtInstructions.setForeground(Color.WHITE);
 		txtInstructions.setBackground(Color.BLACK);
