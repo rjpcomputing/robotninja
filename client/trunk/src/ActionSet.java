@@ -17,7 +17,7 @@ class ActionSet extends AbstractAction
     	  ninja = pNinja;
     }
     
-    public void actionPerformed(ActionEvent e) 
+    public void actionPerformed(ActionEvent e)
     {
 		if(action != ninja.getCurrentCom())
 		{
@@ -46,8 +46,16 @@ class ActionSet extends AbstractAction
 			{
 				tcpCommand = "L+000R+000";
 			}			else if (action == "open")			{				tcpCommand = "O.........";			}			else if (action == "close")			{				tcpCommand = "C.........";			}
-			ninja.setCurrentCom(action);			System.out.println(tcpCommand);
-		    client.sendString(tcpCommand);
+			try
+			{
+				ninja.setCurrentCom(action);
+				//System.out.println(tcpCommand);
+		    	client.sendString(tcpCommand);
+			}
+			catch(Exception ex)
+			{
+				ninja.updateGUI(ex.toString(), null);
+			}
 		}
     }
 }

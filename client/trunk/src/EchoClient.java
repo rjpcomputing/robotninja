@@ -5,9 +5,9 @@ import java.io.*;
 
 public class EchoClient
 {
-	Socket sock = null;
-	InputStream in = null;
-	OutputStream out = null;
+	Socket sock;
+	InputStream in;
+	OutputStream out;
 
 	public EchoClient(String pServerName, int pPort)
 	{
@@ -23,16 +23,21 @@ public class EchoClient
 		}
 	}
 
-	public void sendString(String pMessage)
+	public void sendString(String pMessage) throws Exception
 	{
-		try
-		{  			
-			out.write(pMessage.getBytes());
-			out.write('\n');
-		}
-		catch(Exception e)
-		{
-			System.out.println(e.toString());
-		}
+		out.write(pMessage.getBytes());
+		out.write('\n');
+		out.flush();
+		System.out.println(pMessage);
+	}
+
+	public void close() throws Exception
+	{
+		sock.close();
+	}
+
+	public boolean isClosed()
+	{
+		return sock.isClosed();
 	}
 }
