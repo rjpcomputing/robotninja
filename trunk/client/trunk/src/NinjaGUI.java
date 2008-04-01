@@ -371,7 +371,7 @@ public class NinjaGUI extends JFrame implements ActionListener
 		content.remove(lblVidPort);
 		content.remove(txtInstructions);
 		content.remove(lblScore);
-		content.remove(jtxScore);
+				content.remove(jtxScore);
 		content.setBackground(null);
 		/*if(pPlayer != null)
 		{
