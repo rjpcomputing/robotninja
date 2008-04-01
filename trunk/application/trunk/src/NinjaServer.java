@@ -46,7 +46,7 @@ public class NinjaServer {
 	 * @param rtpPort the beginning port (even-numbered) for video streaming
 	 * @param robotMac the robot's MAC address
 	 * @param videoConnectionString the video connection string
-	 */
+	 **************************************************************************/
 	public NinjaServer(String tcpPort, String rtpPort, String robotMac, String videoConnectionString)
 	{
 		robot = new RobotInterface(robotMac);
@@ -54,8 +54,8 @@ public class NinjaServer {
 		while (true)
 		{
 			client = new ClientInterface(tcpPort);
-
-			streaming = new VideoStreaming(client.getClientIP(), rtpPort, robotMac, detection);
+					
+			streaming = new VideoStreaming(client.getClientIP(), rtpPort, videoConnectionString, detection);
 
 			streaming.start();
 			
