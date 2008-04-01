@@ -47,6 +47,9 @@ public class ImageDetection extends Thread {
 	private boolean timeToStop; // 
 	private ArrayList<Integer> scoreHistory; // normalizes score
 	
+	/**************************************************************************
+	 * Basic constructor.
+	 **************************************************************************/
 	public ImageDetection()
 	{
 		player = null;
@@ -58,7 +61,7 @@ public class ImageDetection extends Thread {
 
 
 	/**************************************************************************
-	* Constructor that requires a cloned Player.
+	* Sets the cloned player from the video stream for image detection.
 	* @param pPlayer The video stream of the web cam.
 	***************************************************************************/
 	public void setPlayer(Player pPlayer)
