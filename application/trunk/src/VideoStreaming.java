@@ -45,7 +45,7 @@ public class VideoStreaming extends Thread {
 	 * @param pPort the first (even-numbered) port to stream to
 	 * @param pVideoConnectionString the video's connection string
 	 * @param pImageDetection the image detection object
-	 */
+	 **************************************************************************/
 	public VideoStreaming(String pIPAddress, String pPort, String pVideoConnectionString, ImageDetection pImageDetection)
 	{
 		readyToStream = false;
