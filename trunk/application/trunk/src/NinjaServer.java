@@ -37,7 +37,7 @@ public class NinjaServer {
 	private ClientInterface client;
 	private VideoStreaming streaming;
 	private ImageDetection detection;
-	
+
 	/**************************************************************************
 	 * Constructor that takes command line parameters, connects to the robot,
 	 * then connects to the server.
@@ -46,7 +46,7 @@ public class NinjaServer {
 	 * @param rtpPort the beginning port (even-numbered) for video streaming
 	 * @param robotMac the robot's MAC address
 	 * @param videoConnectionString the video connection string
-	 **************************************************************************/
+	 */
 	public NinjaServer(String tcpPort, String rtpPort, String robotMac, String videoConnectionString)
 	{
 		robot = new RobotInterface(robotMac);
@@ -54,18 +54,20 @@ public class NinjaServer {
 		while (true)
 		{
 			client = new ClientInterface(tcpPort);
-					
+
+			detection = new ImageDetection();
+			
 			streaming = new VideoStreaming(client.getClientIP(), rtpPort, videoConnectionString, detection);
 
 			streaming.start();
-			
+
 			run();
 		}
 	}
-	
+
 	/**************************************************************************
 	 * Handles main communication between the client and the robot.
-	 **************************************************************************/
+	 */
 	private void run()
 	{
 		while (true)
@@ -96,7 +98,15 @@ public class NinjaServer {
 			{
 				if (command.equals("score?"))
 				{
-					client.sendString(String.valueOf(detection.getScore()));
+					if (detection != null)
+					{
+						int score = detection.getScore();
+						client.sendString(String.valueOf(score));
+					}
+					else
+					{
+						client.sendString("0");
+					}
 				}
 			}
 			else
@@ -108,15 +118,15 @@ public class NinjaServer {
 		streaming.stopStreaming();
 		client.disconnect();
 	}
-	
+
 	/**************************************************************************
 	 * Main method creates a NinjaServer instance.
 	 * @param args tcpPort rtpPort robotMAC videoConnectionString
-	 **************************************************************************/
+	 */
 	public static void main(String[] args)
 	{
 		NinjaServer server;
-		
+
 		if (args.length == 3)
 		{
 			server = new NinjaServer(args[0], args[1], args[2], "vfw:Microsoft WDM Image Capture (Win32):0");

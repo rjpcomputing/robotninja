@@ -45,7 +45,7 @@ public class VideoStreaming extends Thread {
 	 * @param pPort the first (even-numbered) port to stream to
 	 * @param pVideoConnectionString the video's connection string
 	 * @param pImageDetection the image detection object
-	 **************************************************************************/
+	 */
 	public VideoStreaming(String pIPAddress, String pPort, String pVideoConnectionString, ImageDetection pImageDetection)
 	{
 		readyToStream = false;
@@ -53,13 +53,13 @@ public class VideoStreaming extends Thread {
 		port = pPort;
 		detection = pImageDetection;
 		videoConnectionString = pVideoConnectionString;
-		detection = new ImageDetection();
+		detection = pImageDetection;
 	}
 	
 	/**************************************************************************
 	 * Sets up and starts the VideoTransmit class provided by Sun, then starts
 	 * the image detection on another thread.
-	 **************************************************************************/
+	 */
 	public void run()                       
 	{
 		String errors;
@@ -108,7 +108,7 @@ public class VideoStreaming extends Thread {
 	/**************************************************************************
 	 * Signals both the image detection and the video streaming threads to
 	 * quit running by raising flags for the threads to detect.
-	 **************************************************************************/
+	 */
 	public void stopStreaming()
 	{
 		if (detection != null)

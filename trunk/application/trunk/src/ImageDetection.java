@@ -49,7 +49,7 @@ public class ImageDetection extends Thread {
 	
 	/**************************************************************************
 	 * Basic constructor.
-	 **************************************************************************/
+	 */
 	public ImageDetection()
 	{
 		player = null;
@@ -63,7 +63,7 @@ public class ImageDetection extends Thread {
 	/**************************************************************************
 	* Sets the cloned player from the video stream for image detection.
 	* @param pPlayer The video stream of the web cam.
-	***************************************************************************/
+	*/
 	public void setPlayer(Player pPlayer)
 	{
 		player = pPlayer;
@@ -71,7 +71,7 @@ public class ImageDetection extends Thread {
 	
 	/**************************************************************************
 	 * Method is called when thread is started and begins image detection.    
-	 **************************************************************************/
+	 */
     public void run()                       
     {
     	// let the web cam warm up for 5 seconds
@@ -94,7 +94,7 @@ public class ImageDetection extends Thread {
 			// give the CPU a breather
 			try 
 			{
-				Thread.currentThread().sleep(1000);
+				Thread.currentThread().sleep(500);
 			} 
 			catch (InterruptedException ie) { }
 			
@@ -117,11 +117,15 @@ public class ImageDetection extends Thread {
 				edges = detector.getEdgesImage();
 				
 				// figure out the location of the goal
-				goalDetector = new CircleDetection(edges, 20, 30, 1);
-				goal = goalDetector.getAllCoords().get(0);
+				// but only do it once!
+				if (goalDetector == null)
+				{
+					goalDetector = new CircleDetection(edges, 20, 30, 1);
+					goal = goalDetector.getAllCoords().get(0);
+				}
 				
 				// figure out the location of the balls
-				ballDetector = new CircleDetection(edges, 4, 6, 2);
+				ballDetector = new CircleDetection(edges, 5, 6, 2);
 				balls[0] = ballDetector.getAllCoords().get(0);
 				balls[1] = ballDetector.getAllCoords().get(1);
 				
@@ -138,8 +142,10 @@ public class ImageDetection extends Thread {
 				}
 				
 				addToScoreHistory(score);
-				
-				System.out.println("Score: " + getScore());
+				//System.out.println("K1: " + balls[0].getK() + " R1:" + balls[0].getR() +
+				//		           "K2: " + balls[1].getK() + " R2:" + balls[1].getR() +
+				//		           "Score: " + getScore());
+
 			}
 			catch (Exception e)
 			{  
@@ -153,7 +159,7 @@ public class ImageDetection extends Thread {
      * @param c1 The first set of cartesian coordinates.
      * @param c2 The second set of cartesian coordinates.
      * @return The resulting distance between the two coordinates.
-     **************************************************************************/
+     */
     private double getDistance(CartesianCoordinates c1, CartesianCoordinates c2)
     {
     	return Math.sqrt(Math.pow(Math.abs(c1.getX() - c2.getX()), 2) + Math.pow(Math.abs(c1.getY() - c2.getY()), 2));
@@ -164,7 +170,7 @@ public class ImageDetection extends Thread {
      * @param distance The distance.
      * @param radius The radius.
      * @return if within range, returns true, otherwise returns false
-     **************************************************************************/
+     */
     private boolean withinRange(double distance, int radius)
     {
     	if (distance > radius)
@@ -180,12 +186,19 @@ public class ImageDetection extends Thread {
     /**************************************************************************
      * Returns the score which is the mode of the score history.
      * @return the score
-     **************************************************************************/
+     */
     public int getScore()
     {
-    	int[] scoreFrequency = new int[getMaxValueFromArrayList(scoreHistory)+1];
+    	int[] scoreFrequency;
     	int score = 0;
     	int highestFrequency = 0;
+    	
+    	if (scoreHistory.size() == 0)
+    	{
+    		return 0;
+    	}
+    	
+    	scoreFrequency = new int[getMaxValueFromArrayList(scoreHistory)+1];
     	
     	for (int i = 0; i < scoreHistory.size(); i++)
     	{
@@ -207,7 +220,7 @@ public class ImageDetection extends Thread {
     
     /**************************************************************************
      * This flag is set outside of the thread to signal to shut down.
-     **************************************************************************/
+     */
 	public void stopRunning()
 	{
 		timeToStop = true;
@@ -217,11 +230,11 @@ public class ImageDetection extends Thread {
 	 * Appends the latest score to the score history and bumps off the
 	 * earliest record if required.
 	 * @param score the latest score to be added.
-	 **************************************************************************/
+	 */
 	private void addToScoreHistory(int score)
 	{
 		Integer newScore = new Integer(score);
-		if (scoreHistory.size() <= 3)
+		if (scoreHistory.size() <= 5)
 		{
 			scoreHistory.add(newScore);
 		}
@@ -236,7 +249,7 @@ public class ImageDetection extends Thread {
 	 * Goes through an arraylist of integers are returns the maximum value.
 	 * @param ar the arraylist of integers
 	 * @return the maximum value
-	 **************************************************************************/
+	 */
 	private int getMaxValueFromArrayList(ArrayList<Integer> ar)
 	{
 		int max = 0;
