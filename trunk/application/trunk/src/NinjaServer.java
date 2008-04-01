@@ -24,75 +24,86 @@
 
 public class NinjaServer {
 
-	public static void main(String[] args)
+	private RobotInterface robot;
+	private ClientInterface client;
+	private VideoStreaming streaming;
+	private ImageDetection detection;
+	
+	public NinjaServer(String tcpPort, String rtpPort, String robotMac, String videoConnectionString)
 	{
-		if (args.length != 3 && args.length != 4)
-		{
-			System.out.println("Usage: java NinjaServer <tcpPort> <rtpPort> <robotmac> (videoConnectionString)");
-			System.exit(1);
-		}
-
-		RobotInterface robot = null;
-		ClientInterface client = null;
-		VideoStreaming streaming = null;
-		ImageDetection detection = null;
-
-		robot = new RobotInterface(args[2]);
+		robot = new RobotInterface(robotMac);
 
 		while (true)
 		{
-			client = new ClientInterface(args[0]);
+			client = new ClientInterface(tcpPort);
 
-			if (client.connected() && args.length == 3)
-			{
-				streaming = new VideoStreaming(client.getClientIP(), args[1], detection);
-			}
-			else if (client.connected() && args.length == 4)
-			{
-				streaming = new VideoStreaming(client.getClientIP(), args[1], args[3], detection);
-			}
+			streaming = new VideoStreaming(client.getClientIP(), rtpPort, robotMac, detection);
 
 			streaming.start();
+			
+			run();
+		}
+	}
+	
+	private void run()
+	{
+		while (true)
+		{
+			String command;
 
-			while (true)
+			command = client.receiveCommand();
+
+			if (command.contains("X"))
 			{
-				String command;
+				break;
+			}
 
-				command = client.receiveCommand();
+			if (command.length() == 10)
+			{
+				robot.sendCommand(command);
 
-				if (command.contains("X"))
+				if (robot.receiveStatus())
 				{
-					break;
-				}
-
-				if (command.length() == 10)
-				{
-					robot.sendCommand(command);
-
-					if (robot.receiveStatus())
-					{
-						client.sendAck();
-					}
-					else
-					{
-						client.sendNak();
-					}
-				}
-				else if (command.length() < 10)
-				{
-					if (command.equals("score?"))
-					{
-						//client.sendString(detector.getScore());
-					}
+					client.sendAck();
 				}
 				else
 				{
-					System.out.println("Invalid command: " + command);
+					client.sendNak();
 				}
-
 			}
-			streaming.stopStreaming();
-			client.disconnect();
+			else if (command.length() < 10)
+			{
+				if (command.equals("score?"))
+				{
+					client.sendString(String.valueOf(detection.getScore()));
+				}
+			}
+			else
+			{
+				System.out.println("Invalid command: " + command);
+			}
+
+		}
+		streaming.stopStreaming();
+		client.disconnect();
+	}
+	
+	public static void main(String[] args)
+	{
+		NinjaServer server;
+		
+		if (args.length == 3)
+		{
+			server = new NinjaServer(args[0], args[1], args[2], "vfw:Microsoft WDM Image Capture (Win32):0");
+		}
+		else if (args.length == 4)
+		{
+			server = new NinjaServer(args[0], args[1], args[2], args[3]);
+		}
+		else
+		{
+			System.out.println("Usage: java NinjaServer <tcpPort> <rtpPort> <robotmac> (videoConnectionString)");
+			System.exit(1);
 		}
 	}
 }
