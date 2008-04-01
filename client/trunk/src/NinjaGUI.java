@@ -43,7 +43,7 @@ public class NinjaGUI extends JFrame implements ActionListener
 	private JPanel video;
 	private JSlider slider;
 	private JTextArea txtInstructions;
-	private JTextField jtxServer, jtxPort, jtxVidPort, jtxTeamOne, jtxTeamTwo;
+	private JTextField jtxServer, jtxPort, jtxVidPort, jtxScore;
 	private MediaPlayer player;
 	private String serverName;
 	private Socket sktToServer;
@@ -105,7 +105,7 @@ public class NinjaGUI extends JFrame implements ActionListener
 		slider.setLabelTable( labelTable );
 		slider.setPaintLabels(true);
 		
-		txtInstructions = new JTextArea("W - Forward\nA - Left\nS - Backward\nD - Right\nE - Stop\nO - Open Claw\nP - Close Claw\nUp - Increase Power\nDown - Decrease Power");
+		txtInstructions = new JTextArea("W - Forward\nA - Left\nS - Backward\nD - Right\nE - Stop\nO - Open Claw\nP - Close Claw");
 		txtInstructions.setBounds(137, 5, 100, 125);
 		txtInstructions.setForeground(Color.WHITE);
 		txtInstructions.setBackground(Color.BLACK);
@@ -123,6 +123,10 @@ public class NinjaGUI extends JFrame implements ActionListener
 		lblVidPort.setBounds(250, 75, 75, 25);
 		lblVidPort.setForeground(Color.WHITE);
 
+		lblScore = new JLabel("Score");
+		lblScore.setBounds(250, 110, 100, 25);
+		lblScore.setForeground(Color.WHITE);
+		
 		jtxServer = new JTextField();
 		jtxServer.setBounds(325, 5, 150, 25);
 		if(pArgs.length > 0)
@@ -144,6 +148,11 @@ public class NinjaGUI extends JFrame implements ActionListener
 			jtxVidPort.setText(pArgs[2]);
 		}
 		
+		jtxScore = new JTextField("0");
+		jtxScore.setBounds(325, 110, 150, 25);
+		jtxScore.setForeground(Color.RED);
+		jtxScore.setEditable(false);
+		
 		btnConnect = new JButton("Connect");
 		btnConnect.setBounds(500, 5, 150, 25);
 		btnConnect.addActionListener(this);
@@ -154,20 +163,6 @@ public class NinjaGUI extends JFrame implements ActionListener
 		btnDisconnect.addActionListener(this);
 		btnDisconnect.setActionCommand("X.........");	
 		btnDisconnect.setEnabled(false);
-		
-		lblScore = new JLabel("Score");
-		lblScore.setBounds(550, 75, 100, 25);
-		lblScore.setForeground(Color.WHITE);
-		
-		jtxTeamOne = new JTextField("0");
-		jtxTeamOne.setBounds(500, 100, 50, 25);
-		jtxTeamOne.setForeground(Color.RED);
-		jtxTeamOne.setEditable(false);
-		
-		jtxTeamTwo = new JTextField("0");
-		jtxTeamTwo.setBounds(575, 100, 50, 25);
-		jtxTeamTwo.setForeground(Color.BLUE);
-		jtxTeamTwo.setEditable(false);
 
 		lblTemp = new JLabel("Not connected.");
 		lblTemp.setBounds(25, 625, 200, 25);
@@ -192,8 +187,7 @@ public class NinjaGUI extends JFrame implements ActionListener
 		content.add(btnConnect);
 		content.add(btnDisconnect);
 		content.add(lblScore);
-		content.add(jtxTeamOne);
-		content.add(jtxTeamTwo);
+		content.add(jtxScore);
 		content.setBackground(Color.BLACK);
     	setVisible(true);
 	}
@@ -340,8 +334,7 @@ public class NinjaGUI extends JFrame implements ActionListener
 		content.remove(lblVidPort);
 		content.remove(txtInstructions);
 		content.remove(lblScore);
-		content.remove(jtxTeamOne);
-		content.remove(jtxTeamTwo);
+		content.remove(jtxScore);
 		content.setBackground(null);
 		/*if(pPlayer != null)
 		{
@@ -368,8 +361,7 @@ public class NinjaGUI extends JFrame implements ActionListener
 		content.add(lblVidPort);
 		content.add(txtInstructions);
 		content.add(lblScore);
-		content.add(jtxTeamOne);
-		content.add(jtxTeamTwo);
+		content.add(jtxScore);
 		content.setBackground(Color.BLACK);
 		/*if(pPlayer != null)
 		{
