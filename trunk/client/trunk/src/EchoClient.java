@@ -23,12 +23,14 @@
 
 import java.net.*;
 import java.io.*;
+import java.util.concurrent.Semaphore;
 
 public class EchoClient
 {
 	Socket sock;
 	InputStream in;
 	OutputStream out;
+	private final Semaphore available = new Semaphore(1, true);
 
 	public EchoClient(String pServerName, int pPort)
 	{
@@ -46,20 +48,23 @@ public class EchoClient
 
 	public void sendString(String pMessage) throws Exception
 	{
+		available.acquire();	
 		out.write(pMessage.getBytes());
 		out.write('\n');
 		out.flush();
 		System.out.println(pMessage);
+		available.release();
 	}
 	
 	public String receiveString() throws Exception
 	{
-		byte[] buffer = new byte[1024];
-		int bytes = 0;
-		bytes = in.read(buffer);		
-		String line = new String(buffer);
+			available.acquire();
+			BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+			String line = reader.readLine();
+			System.out.println(line);
+			available.release();
+			return line;
 			
-		return line;
 	}
 
 	public void close() throws Exception
