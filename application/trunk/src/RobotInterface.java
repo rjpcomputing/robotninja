@@ -20,7 +20,12 @@
 * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ******************************************************************************/
-import java.lang.*;
+
+/******************************************************************************
+ * Handles interfacing with the lego NXT robot by using bluetooth.            
+ * 
+ * @author Jason Pell
+ ******************************************************************************/
 import java.io.*;
 import lejos.pc.comm.*;
 
@@ -34,6 +39,11 @@ public class RobotInterface {
 	DataOutputStream dos;
 	DataInputStream dis;
 	
+	/**************************************************************************
+	 * Constructor creates the connection to the robot and opens the
+	 * appropriate streams.
+	 * @param nxtMAC the MAC address of the robot
+	 **************************************************************************/
 	public RobotInterface(String nxtMAC)
 	{
 		opened = false;
@@ -66,6 +76,10 @@ public class RobotInterface {
 		dis = new DataInputStream(is);
 	}
 	    
+	/**************************************************************************
+	 * Sends the specified command to the robot.
+	 * @param comm the command to send
+	 **************************************************************************/
     public void sendCommand(String comm)
     {
     	try
@@ -80,6 +94,10 @@ public class RobotInterface {
     	}
     }
     
+    /**************************************************************************
+     * Waits for the robot to send its status.
+     * @return the status that was received
+     **************************************************************************/
     public boolean receiveStatus()
     {
     	boolean status;
@@ -97,6 +115,9 @@ public class RobotInterface {
     	return status;
     }
     
+    /**************************************************************************
+     * Closes the connection with the robot.
+     **************************************************************************/
     public void close()
     {
 		try 

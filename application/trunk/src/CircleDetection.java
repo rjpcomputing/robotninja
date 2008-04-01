@@ -21,22 +21,38 @@
 * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ******************************************************************************/
 
+/******************************************************************************
+ * Uses an implementation of the houghes transform on circles.  You can       
+ * request specific parameters such as a radius range and number of circles,
+ * and it will attempt to return it.
+ * 
+ * @author Jason Pell
+ ******************************************************************************/
 import java.awt.image.*;
 import java.util.ArrayList;
 
 public class CircleDetection {
 	private BufferedImage img;
 	private ArrayList<CartesianCoordinates> circleCoords;
-	private int[][][] accumulator;
-	private int accumulatorX;
-	private int accumulatorY;
-	private int accumulatorZ;
+	private int[][][] accumulator; // used for circle prediction
+	private int accumulatorX; // stores the number of x elements
+	private int accumulatorY; // store the number of y elements
+	private int accumulatorZ; // stores the number of z elements
 	private int noCircles;
 	private int lowR;
 	private int highR;
 	private int imgWidth;
 	private int imgHeight;
 	
+	/**************************************************************************
+	 * Constructor that gets the image, low radius, high radius, and number
+	 * of circles, and then gets the closest possible circles and puts it
+	 * into the circleCoords arraylist.
+	 * @param pImg the image to be processed
+	 * @param pLowR the lowest radius the circle should have
+	 * @param pHighR the highest radius the circle should have
+	 * @param pNoCircles the number of circles to find
+	 **************************************************************************/
 	public CircleDetection(BufferedImage pImg, int pLowR, int pHighR, int pNoCircles)
 	{
 		img = pImg;
@@ -92,20 +108,38 @@ public class CircleDetection {
 		circleCoords = getCoordsFromAccumulator();
 	}
 
+	/**************************************************************************
+	 * Returns the circles that were found.
+	 * @return list of the most likely circles
+	 **************************************************************************/
 	public ArrayList<CartesianCoordinates> getAllCoords()
 	{
 		return circleCoords;
 	}
 	
-	public int getYFromCircle(int r, int a, int b, int x, int sign)
+	/**************************************************************************
+	 * This uses the formula for the graph of a circle to return the y value
+	 * when given a number of additional information based on the circle.
+	 * @param r the radius
+	 * @param a the offset of x
+	 * @param b the offset of y
+	 * @param x the x coordinate
+	 * @param sign positive or negative (1 or -1)
+	 * @return the y coordinate
+	 **************************************************************************/
+	private int getYFromCircle(int r, int a, int b, int x, int sign)
 	{
 
 		return (int)Math.round(sign * (Math.sqrt(Math.pow(r, 2) - Math.pow((x-a), 2))) + b);
 	}
 
-	public ArrayList<CartesianCoordinates> getCoordsFromAccumulator()
+	/**************************************************************************
+	 * Go through the accumulator and find the best circles.
+	 * @return arraylist of circle coordinates
+	 **************************************************************************/
+	private ArrayList<CartesianCoordinates> getCoordsFromAccumulator()
 	{
-		ArrayList<CartesianCoordinates> coords = new ArrayList(noCircles);
+		ArrayList<CartesianCoordinates> coords = new ArrayList<CartesianCoordinates>(noCircles);
 
 		for (int i = 0; i < accumulator.length; i++)
 		{
@@ -122,7 +156,13 @@ public class CircleDetection {
 		return coords;
 	}
 
-	public void attemptAddToArrayList(ArrayList<CartesianCoordinates> coords, CartesianCoordinates newCoords)
+	/**************************************************************************
+	 * Tries to determine whether or not the circle coordinate is worthy
+	 * of being considered one of the best circles.
+	 * @param coords the current list of best circles
+	 * @param newCoords the potential new "best" circle
+	 **************************************************************************/
+	private void attemptAddToArrayList(ArrayList<CartesianCoordinates> coords, CartesianCoordinates newCoords)
 	{
 		CartesianCoordinates currMin = null;
 
@@ -176,7 +216,13 @@ public class CircleDetection {
 		}
 	}
 
-	public CartesianCoordinates getMinValFromArrayList(ArrayList<CartesianCoordinates> ar)
+	/**************************************************************************
+	 * Goes through the arraylist of cartesian coordinates and finds the
+	 * lowest k value.
+	 * @param ar the arraylist of cartesian coordinates
+	 * @return the CartesianCoordinate with the small k value
+	 **************************************************************************/
+	private CartesianCoordinates getMinValFromArrayList(ArrayList<CartesianCoordinates> ar)
 	{
 		CartesianCoordinates min;
 

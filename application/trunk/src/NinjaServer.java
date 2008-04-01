@@ -21,6 +21,15 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ******************************************************************************/
 
+/*******************************************************************************
+ * The main class to the NinjaServer project.  It sends video feed to a client
+ * that sends it commands on where to send a robot.  It is designed to be cross
+ * platform and persist when the client disconnects and reconnects.  Uses image
+ * detection to calculate the score of a simple ball game that requires two
+ * balls and one larger, circular goal.
+ * 
+ * @author Jason Pell
+ *******************************************************************************/
 
 public class NinjaServer {
 
@@ -29,6 +38,15 @@ public class NinjaServer {
 	private VideoStreaming streaming;
 	private ImageDetection detection;
 	
+	/**************************************************************************
+	 * Constructor that takes command line parameters, connects to the robot,
+	 * then connects to the server.
+	 * 
+	 * @param tcpPort the port the client should connect to for commands
+	 * @param rtpPort the beginning port (even-numbered) for video streaming
+	 * @param robotMac the robot's MAC address
+	 * @param videoConnectionString the video connection string
+	 */
 	public NinjaServer(String tcpPort, String rtpPort, String robotMac, String videoConnectionString)
 	{
 		robot = new RobotInterface(robotMac);
@@ -45,6 +63,9 @@ public class NinjaServer {
 		}
 	}
 	
+	/**************************************************************************
+	 * Handles main communication between the client and the robot.
+	 **************************************************************************/
 	private void run()
 	{
 		while (true)
@@ -88,6 +109,10 @@ public class NinjaServer {
 		client.disconnect();
 	}
 	
+	/**************************************************************************
+	 * Main method creates a NinjaServer instance.
+	 * @param args tcpPort rtpPort robotMAC videoConnectionString
+	 **************************************************************************/
 	public static void main(String[] args)
 	{
 		NinjaServer server;

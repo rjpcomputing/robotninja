@@ -20,7 +20,12 @@
  * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ******************************************************************************/
-import java.lang.*;
+
+/*******************************************************************************
+ * Handles the TCP/IP communication with the client.                           
+ * 
+ * @author Jason Pell
+ *******************************************************************************/
 import java.net.*;
 import java.io.*;
 
@@ -33,6 +38,11 @@ public class ClientInterface
 	private BufferedReader reader;
 	private BufferedWriter writer;
 
+	/**************************************************************************
+	 * Constructor waits on the specified port for an incoming connection
+	 * and sets up client-server connectivity.
+	 * @param port the port to accept connections
+	 **************************************************************************/
 	public ClientInterface(String port)
 	{
 		try
@@ -58,19 +68,30 @@ public class ClientInterface
 		}
 	}
 
+	/**************************************************************************
+	 * Returns the clients IP address.
+	 * @return the client's IP address
+	 **************************************************************************/
 	public String getClientIP()
 	{
 		InetAddress clientIP;
 		clientIP = socket.getInetAddress();
-		System.out.println("Connected to: " + clientIP.getHostAddress());
 		return clientIP.getHostAddress();
 	}
 
+	/**************************************************************************
+	 * is the client connected?
+	 * @return boolean value that says whether or not the client is connected
+	 **************************************************************************/
 	public boolean connected()
 	{
 		return socket.isConnected();
 	}
 
+	/**************************************************************************
+	 * Waits for the client to send the server a command.
+	 * @return the command that was recieved by the client
+	 **************************************************************************/
 	public String receiveCommand()
 	{
 		String command;
@@ -88,6 +109,10 @@ public class ClientInterface
 		return command;
 	}
 	
+	/**************************************************************************
+	 * Sends the specified string to the client.
+	 * @param a the string to send
+	 **************************************************************************/
 	public void sendString(String a)
 	{
 		try
@@ -100,6 +125,9 @@ public class ClientInterface
 		}
 	}
 
+	/**************************************************************************
+	 * Sends an acknowledgement to the client.
+	 **************************************************************************/
 	public void sendAck()
 	{
 		try
@@ -112,6 +140,9 @@ public class ClientInterface
 		}
 	}
 
+	/**************************************************************************
+	 * Sends a negative acknowledgement to the client.
+	 **************************************************************************/
 	public void sendNak()
 	{
 		try
@@ -125,6 +156,9 @@ public class ClientInterface
 
 	}
 
+	/**************************************************************************
+	 * Disconnects from the client.
+	 **************************************************************************/
 	public void disconnect()
 	{
 		try 
