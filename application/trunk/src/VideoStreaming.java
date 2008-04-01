@@ -20,10 +20,8 @@
  * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  ******************************************************************************/
-import java.lang.*;
+
 import javax.media.*;
-import javax.media.control.FrameGrabbingControl;
-import java.io.*;
 
 public class VideoStreaming extends Thread {
 	private boolean readyToStream;
@@ -33,16 +31,6 @@ public class VideoStreaming extends Thread {
 	private ImageDetection detection;
 	private Player player;
 	private String videoConnectionString;
-
-	public VideoStreaming(String pIPAddress, String pPort, ImageDetection pImageDetection)
-	{
-		readyToStream = false;
-		ipAddress = pIPAddress;
-		port = pPort;
-		detection = pImageDetection;
-		videoConnectionString = "vfw:Microsoft WDM Image Capture (Win32):0";
-		detection = new ImageDetection();
-	}
 	
 	public VideoStreaming(String pIPAddress, String pPort, String pVideoConnectionString, ImageDetection pImageDetection)
 	{
@@ -72,6 +60,7 @@ public class VideoStreaming extends Thread {
 		{
 			player = Manager.createPlayer(vt.getClonedDataSource());
 			player.start();
+			detection.setPriority(3); // setting image detection priority to 3 out of 10
 			detection.setPlayer(player);
 			detection.start();
 		}
