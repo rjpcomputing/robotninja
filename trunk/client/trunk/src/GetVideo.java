@@ -33,9 +33,9 @@ import java.net.*;
 
 public class GetVideo
 {
-	private String strIP;
-	private String strPort;
-	private CaptureDeviceInfo device;
+	 private String strIP;
+	 private String strPort;
+	 private CaptureDeviceInfo device;
     private MediaLocator loc;
     private DataSource data = null;
     private MediaPlayer mediaPlayer;
@@ -56,6 +56,6 @@ public class GetVideo
            
         mediaPlayer = new MediaPlayer();
         mediaPlayer.setPlayer(player);
-		return mediaPlayer;
+		  return mediaPlayer;
     }
 }
