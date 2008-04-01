@@ -42,7 +42,7 @@ public class ClientInterface
 	 * Constructor waits on the specified port for an incoming connection
 	 * and sets up client-server connectivity.
 	 * @param port the port to accept connections
-	 **************************************************************************/
+	 */
 	public ClientInterface(String port)
 	{
 		try
@@ -71,7 +71,7 @@ public class ClientInterface
 	/**************************************************************************
 	 * Returns the clients IP address.
 	 * @return the client's IP address
-	 **************************************************************************/
+	 */
 	public String getClientIP()
 	{
 		InetAddress clientIP;
@@ -82,7 +82,7 @@ public class ClientInterface
 	/**************************************************************************
 	 * is the client connected?
 	 * @return boolean value that says whether or not the client is connected
-	 **************************************************************************/
+	 */
 	public boolean connected()
 	{
 		return socket.isConnected();
@@ -91,7 +91,7 @@ public class ClientInterface
 	/**************************************************************************
 	 * Waits for the client to send the server a command.
 	 * @return the command that was recieved by the client
-	 **************************************************************************/
+	 */
 	public String receiveCommand()
 	{
 		String command;
@@ -112,12 +112,14 @@ public class ClientInterface
 	/**************************************************************************
 	 * Sends the specified string to the client.
 	 * @param a the string to send
-	 **************************************************************************/
+	 */
 	public void sendString(String a)
 	{
 		try
 		{
-			writer.write(a);
+			out.write(a.getBytes());
+			out.write('\n');
+			out.flush();
 		}
 		catch (IOException e)
 		{
@@ -127,12 +129,15 @@ public class ClientInterface
 
 	/**************************************************************************
 	 * Sends an acknowledgement to the client.
-	 **************************************************************************/
+	 */
 	public void sendAck()
 	{
+		String ack = "ACK";
 		try
 		{
-			writer.write("ACK");
+			out.write(ack.getBytes());
+			out.write('\n');
+			out.flush();
 		}
 		catch (IOException e)
 		{
@@ -142,12 +147,15 @@ public class ClientInterface
 
 	/**************************************************************************
 	 * Sends a negative acknowledgement to the client.
-	 **************************************************************************/
+	 */
 	public void sendNak()
 	{
+		String nak = "NAK";
 		try
 		{
-			writer.write("NAK");
+			out.write(nak.getBytes());
+			out.write('\n');
+			out.flush();
 		}
 		catch (IOException e)
 		{
@@ -158,7 +166,7 @@ public class ClientInterface
 
 	/**************************************************************************
 	 * Disconnects from the client.
-	 **************************************************************************/
+	 */
 	public void disconnect()
 	{
 		try 

@@ -43,7 +43,7 @@ public class RobotInterface {
 	 * Constructor creates the connection to the robot and opens the
 	 * appropriate streams.
 	 * @param nxtMAC the MAC address of the robot
-	 **************************************************************************/
+	 */
 	public RobotInterface(String nxtMAC)
 	{
 		opened = false;
@@ -79,7 +79,7 @@ public class RobotInterface {
 	/**************************************************************************
 	 * Sends the specified command to the robot.
 	 * @param comm the command to send
-	 **************************************************************************/
+	 */
     public void sendCommand(String comm)
     {
     	try
@@ -97,7 +97,7 @@ public class RobotInterface {
     /**************************************************************************
      * Waits for the robot to send its status.
      * @return the status that was received
-     **************************************************************************/
+     */
     public boolean receiveStatus()
     {
     	boolean status;
@@ -117,7 +117,7 @@ public class RobotInterface {
     
     /**************************************************************************
      * Closes the connection with the robot.
-     **************************************************************************/
+     */
     public void close()
     {
 		try 
