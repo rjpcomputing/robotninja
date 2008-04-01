@@ -45,7 +45,7 @@ public class NinjaGUI extends JFrame implements ActionListener
 	private JTextArea txtInstructions;
 	private JTextField jtxServer, jtxPort, jtxVidPort, jtxScore;
 	private MediaPlayer player;
-	private String serverName;
+	private String serverName, message;
 	private Socket sktToServer;
 	public String command;
 	public EchoClient client;
@@ -68,19 +68,25 @@ public class NinjaGUI extends JFrame implements ActionListener
     	{
     		public void windowClosing(WindowEvent e) 
     		{
-				if(client.isClosed() == false)
-				{
-					try
+    			if(client != null)
+    			{
+					if(client.isClosed() == false)
 					{
-						client.sendString("X.........");
-					}
-					catch(Exception ex)
-					{
-						System.out.println(ex.toString());
+						try
+						{
+							client.sendString("X.........");
+						}
+						catch(Exception ex)
+						{
+							System.out.println(ex.toString());
+						}
 					}
 				}
-				player.stop();
-				player.close();
+				if(player != null)
+				{
+					player.stop();
+					player.close();
+				}
     			System.exit(0);
     		}
 		});
@@ -201,6 +207,16 @@ public class NinjaGUI extends JFrame implements ActionListener
 	{
 			return command;
 	}
+	
+	public void setMessage(String pMessage)
+	{
+		message = pMessage;
+	}
+	
+	public String getMessage()
+	{
+		return message;
+	}
 
 	//  When a button is pressed, send the appropriate command string to the server
 	public void actionPerformed(ActionEvent ae) 
@@ -215,6 +231,7 @@ public class NinjaGUI extends JFrame implements ActionListener
 			try
 			{
 				client.sendString(action);
+				message = client.receiveString();
 			}
 			catch(Exception e)
 			{
@@ -284,6 +301,7 @@ public class NinjaGUI extends JFrame implements ActionListener
 			try
 			{
 				client.sendString(action);
+				message = client.receiveString();
 			}
 			catch(Exception e)
 			{
@@ -323,8 +341,8 @@ public class NinjaGUI extends JFrame implements ActionListener
 		content.remove(lblTemp);
 		content.remove(lblPower);
 		content.remove(slider);
-	    content.remove(video);
-	    content.remove(btnDisconnect);
+	   content.remove(video);
+	   content.remove(btnDisconnect);
 		content.remove(btnConnect);
 		content.remove(jtxServer);
 		content.remove(jtxPort);
@@ -350,8 +368,8 @@ public class NinjaGUI extends JFrame implements ActionListener
 		content.add(lblTemp);
 		content.add(lblPower);
 		content.add(slider);
-	    content.add(video);
-	    content.add(btnDisconnect);
+	   content.add(video);
+	   content.add(btnDisconnect);
 		content.add(btnConnect);
 		content.add(jtxServer);
 		content.add(jtxPort);

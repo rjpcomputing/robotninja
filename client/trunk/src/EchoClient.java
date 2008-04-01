@@ -51,6 +51,16 @@ public class EchoClient
 		out.flush();
 		System.out.println(pMessage);
 	}
+	
+	public String receiveString() throws Exception
+	{
+		byte[] buffer = new byte[1024];
+		int bytes = 0;
+		bytes = in.read(buffer);		
+		String line = new String(buffer);
+			
+		return line;
+	}
 
 	public void close() throws Exception
 	{
