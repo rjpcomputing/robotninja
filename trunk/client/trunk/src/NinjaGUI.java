@@ -47,7 +47,8 @@ public class NinjaGUI extends JFrame implements ActionListener
 	private MediaPlayer player;
 	private String serverName, message;
 	private Socket sktToServer;
-	public String command;
+	public String command, score;
+	public Score thrScore;
 	public EchoClient client;
 	
 	// Constructor
@@ -63,6 +64,8 @@ public class NinjaGUI extends JFrame implements ActionListener
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setSize(700,700);
 		setResizable(false);
+		
+				
 		
 		addWindowListener(new WindowAdapter() 
     	{
@@ -217,6 +220,12 @@ public class NinjaGUI extends JFrame implements ActionListener
 	{
 		return message;
 	}
+	
+	public void setScore(String pScore)
+	{
+		score = pScore;
+		updateGUI("Connected.", null);
+	}
 
 	//  When a button is pressed, send the appropriate command string to the server
 	public void actionPerformed(ActionEvent ae) 
@@ -237,6 +246,8 @@ public class NinjaGUI extends JFrame implements ActionListener
 			{
 				updateGUI(e.toString(), null);
 			}
+			
+			thrScore = new Score(this, client);
 
 			// set actions for key depresses
 			forward = new ActionSet("forward", slider, this, client);
@@ -294,6 +305,7 @@ public class NinjaGUI extends JFrame implements ActionListener
 			updateGUI("Connected!", player);
 
 			slider.requestFocus();
+			thrScore.start();
 		}
 		
 		if(action == "X.........")
@@ -309,6 +321,8 @@ public class NinjaGUI extends JFrame implements ActionListener
 			}
 			player.stop();
 			player.close();
+			
+			thrScore.setStatus(true);
 			
 			btnDisconnect.setEnabled(false);
 			btnConnect.setEnabled(true);
