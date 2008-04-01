@@ -53,14 +53,14 @@
 		{
 			try
 			{
-				Thread.sleep(1000);
-				client.sendString("score?");
-				message = client.receiveString();
-				ninja.setScore(message);
 				if(status == true)
 				{
 					return;
 				}
+				Thread.sleep(1000);
+				client.sendString("score?");
+				message = client.receiveString();
+				ninja.setScore(message);
 			}
 			catch(Exception e)
 			{

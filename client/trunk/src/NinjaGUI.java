@@ -224,7 +224,11 @@ public class NinjaGUI extends JFrame implements ActionListener
 	public void setScore(String pScore)
 	{
 		score = pScore;
-		updateGUI("Connected.", null);
+		if(score != "ACK" && score != "NACK")
+		{
+			jtxScore.setText(score);
+		}
+		//updateGUI("Connected.", null);
 	}
 
 	//  When a button is pressed, send the appropriate command string to the server
@@ -236,11 +240,12 @@ public class NinjaGUI extends JFrame implements ActionListener
 			String tempServer = jtxServer.getText().trim();
 			String tempPort = jtxPort.getText().trim();
 			int portNum = Integer.parseInt(tempPort);
-			client = new EchoClient(tempServer, portNum);
+			
 			try
 			{
+				client = new EchoClient(tempServer, portNum);
 				client.sendString(action);
-				message = client.receiveString();
+				//message = client.receiveString();
 			}
 			catch(Exception e)
 			{
