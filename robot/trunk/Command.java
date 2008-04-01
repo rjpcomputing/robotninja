@@ -26,23 +26,37 @@ import lejos.nxt.*;
 /**
  * This class will hold details about the commands sent
  * over Bluetooth.
+ * @author rpusztai
+ * @author Adam Parker
  */
 public class Command extends Exception
 {
 	private Motor motor;
 	private int motorPower;
 	private Direction motorDirection;
-	
+
+	/**
+	 * Gets the commands motor.
+	 * @return The current motor.
+	 */
 	public Motor GetMotor()
 	{
 		return motor;
 	}
 
+	/**
+	 * Gets the commands motor power.
+	 * @return The current motor power.
+	 */
 	public int GetPower()
 	{
 		return motorPower;
 	}
 
+	/**
+	 * Gets the commands motor direction.
+	 * @return The current motor direction.
+	 */
 	public Direction GetDirection()
 	{
 		return motorDirection;

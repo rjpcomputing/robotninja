@@ -23,6 +23,12 @@
 
 import lejos.nxt.*;
 
+/**
+ * This class is used to impliment obstacle avoidance.
+ * It is meant to be ran as a thread and uses the ultra-sonic sensor
+ * for distance detection.
+ * @author rpusztai
+ */
 public class ObstacleAvoidance extends Thread
 {
 	private UltrasonicSensor sonic = null;
@@ -84,6 +90,10 @@ public class ObstacleAvoidance extends Thread
 		return false;
 	}
 
+	/**
+	 * This is the main code that is ran as a thread.
+	 * This makes the robot backup to get out of the way of the obstacle.
+	 */
 	public void run()
 	{
 		boolean isBackingUp = false;

@@ -31,12 +31,18 @@ public class NinjaBot
 	private static Navigation nav = null;
 	private static ObstacleAvoidance objectAvoid = null;
 	private static BTCommunication btComm = null;
-	
+
+	/**
+	 * Constuctor. Sets up the main NinjaBot application.
+	 */
 	public NinjaBot()
 	{
 		Initialize();
 	}
 
+	/**
+	 * Initializes the components used in the application.
+	 */
 	public void Initialize()
 	{
 		nav = new Navigation();
@@ -44,22 +50,37 @@ public class NinjaBot
 		btComm = new BTCommunication();
 	}
 
+	/**
+	 * Gets the Navigation object that controls the robot movements.
+	 * @return The Navigation object.
+	 */
 	public static Navigation GetNavigation()
 	{
 		return nav;
 	}
-	
+
+	/**
+	 * Gets the ObstacleAvoidance object that controls the object avoidance.
+	 * @return The ObstacleAvoidance object.
+	 */
 	public static ObstacleAvoidance GetObstacleAvoidance()
 	{
 		return objectAvoid;
 	}
-	
+
+	/**
+	 * Gets the BTCommunication object that controls the Bluetooth communication.
+	 * @return The BTCommunication object.
+	 */
 	public static BTCommunication GetBTCommunication()
 	{
 		return btComm;
 	}
 	
-	// Application entry point.
+	/**
+	 * Application entry point.
+	 * @param args the arguments passed from the command line.
+	 */
 	public static void main( String[] args )
 	{
 		NinjaBot app = new NinjaBot();
