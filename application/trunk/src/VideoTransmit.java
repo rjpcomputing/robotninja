@@ -155,7 +155,8 @@ public class VideoTransmit {
 
 				// Found a video track. Try to program it to output JPEG/RTP
 				// Make sure the sizes are multiple of 8's.
-				Dimension size = ((VideoFormat)format).getSize();
+				Dimension size = new Dimension(320, 240);
+				//Dimension size = ((VideoFormat)format).getSize();
 				float frameRate = ((VideoFormat)format).getFrameRate();
 				int w = (size.width % 8 == 0 ? size.width :
 					(int)(size.width / 8) * 8);
