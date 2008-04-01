@@ -26,25 +26,25 @@ import lejos.nxt.comm.*;
 import java.io.*;
 
 /**
- * Receive data from another NXT, a PC, a phone, 
- * or another bluetooth device.
- * 
- * Waits for a connection, receives an int and returns
- * its negative as a reply, 100 times, and then closes
- * the connection, and waits for a new one.
- * 
- * @author Lawrie Griffiths
- *
+ * Controls the Bluetooth communications to the server.
+ * @author rpusztai
+ * @author Adam Parker
  */
 public class BTCommunication
 {
 	private BTConnection m_btConnection = null;
-	
+
+	/**
+	 * Constructor.
+	 */
 	public BTCommunication()
 	{
 		WaitForConnection();
 	}
 
+	/**
+	 * Waits for a Bluetooth connection.
+	 */
 	public void WaitForConnection()
 	{
 		LCD.drawString( "Waiting...", 0, 0 );
@@ -167,14 +167,20 @@ public class BTCommunication
 		return commands;
 	}
 
-	public int charToInt(char pHundreds, char pTens, char pOnes)
+	/**
+	 * Converts a set of charaters to an integer.
+	 * @param hundreds Character that comes in the hundreds place.
+	 * @param tens Character that comes in the hundreds place.
+	 * @param ones Character that comes in the hundreds place.
+	 * @return The integer created from the three places.
+	 */
+	public int charToInt(char hundreds, char tens, char pOnes)
 	{
-		int hundreds = (pHundreds - 48) * 100;
-		int tens = (pTens - 48) * 10;
-		int ones = pOnes - 48;
-		int sum = hundreds + tens + ones;
+		int h = (hundreds - 48) * 100;
+		int t = (tens - 48) * 10;
+		int o =ones - 48;
+		int sum = h + t + o;
 		
 		return sum;
 	}
 }
-

@@ -26,6 +26,8 @@ import lejos.nxt.*;
 /**
  * Navigation controls the motor outputs of the robot. The drive motors are
  * assumed to be on ports B and C.
+ * @author rpusztai
+ * @author Adam Parker
  */
 public class Navigation
 {
